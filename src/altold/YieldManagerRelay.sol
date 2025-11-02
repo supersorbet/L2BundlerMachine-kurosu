@@ -106,7 +106,7 @@ interface IERC20Minimal {
 /// @title YieldManagerRelay
 /// @notice Multi-protocol yield aggregator with L1 control and Relay.link bridging
 /// @dev Optimized for Ink L2 with gas-efficient storage patterns
-/// @author pepecoin core
+/// @author  core
 contract YieldManagerRelay is Ownable, ReentrancyGuard {
     using SafeTransferLib for address;
     using FixedPointMathLib for uint256;
