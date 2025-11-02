@@ -1,0 +1,10 @@
+cache/
+out/
+lib/
+broadcast/
+.anvil/
+.env
+*.sol.backup
+*.swp
+*.swo
+

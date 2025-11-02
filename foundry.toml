@@ -1,0 +1,30 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc = "0.8.23"
+optimizer = true
+optimizer_runs = 1337
+via_ir = true
+evm_version = "paris"
+gas_reports = ["*"]
+remappings = [
+    "@openzeppelin/=lib/openzeppelin-contracts/",
+    "@forge-std/=lib/forge-std/src/",
+    "solady/=lib/solady/"
+]
+
+# alternateBefore folder moved to root (has version conflicts)
+
+[rpc_endpoints]
+eth_mainnet = "https://eth.llamarpc.com"
+ink_l2 = "https://rpc-gel.inkonchain.com"
+
+[profile.ci]
+fuzz = { runs = 100 }
+
+[profile.optimized]
+optimizer = true
+optimizer_runs = 1337
+via_ir = true
+
