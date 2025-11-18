@@ -1,6 +1,6 @@
 # Introduction
 
-**An extendable cross-chain yield aggregation system bridging Ethereum L1 to Ink L2**
+**An extendable cross-chain yield aggregation protocol bridging Ethereum L1 to Ink L2**
 
 [![Built with Foundry](https://img.shields.io/badge/Built%20with-Foundry-FF6B6B?style=for-the-badge)](https://book.getfoundry.sh/) [![Ink L2](https://img.shields.io/badge/Ink-L2-6366F1?style=for-the-badge)](https://inkonchain.com) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE/)
 
@@ -8,7 +8,7 @@
 
 ## Overview
 
-The L1-L2 Ink Bundler is an easy to use system that enables seamless yield farming across Ethereum (L1) and Ink L2. Users can deposit assets on L1, automatically bridge them to L2 for optimal yield opportunities, and receive yield back on L1—all while maintaining full control through private, owner-only vaults.
+The L1-L2 InkBundler is an easy to use system that enables seamless yield farming across Ethereum (L1) and Ink L2. Users can deposit assets on L1, automatically bridge them to L2 for optimal yield opportunities, and receive yield back on L1—all while maintaining full control through private, owner-only vaults.
 
 ### Key Features
 
@@ -22,8 +22,6 @@ The L1-L2 Ink Bundler is an easy to use system that enables seamless yield farmi
 * 🚀 **Future-Ready**: Plans to integrate Curve.fi, Velodrome automation integration and decentralized keeper bots
 
 ***
-
-## 📚 Documentation Structure
 
 ### [🏗️ Architecture](architecture/)
 
@@ -105,7 +103,7 @@ Use Gnosis Safe multisig to manage cross-chain yield operations securely.
 
 ***
 
-## 🔐 Security Features
+🔐 Security Features
 
 * ✅ **Owner-Only Operations**: All critical functions are owner-restricted
 * ✅ **Reentrancy Protection**: Solady ReentrancyGuard on all state-changing functions
@@ -167,14 +165,6 @@ With additional funding, we plan to implement:
 * 📊 **Advanced Analytics**: Real-time dashboards and on-chain metrics
 * 🌐 **Multi-Bridge Support**: Additional bridge protocols for best-rate routing
 * 📱 **Web Application**: Comprehensive user interface for vault management
-
-See [Future Roadmap](ROADMAP.md) for detailed enhancement plans.
-
-***
-
-## 🤝 Contributing
-
-This is a grant proposal project for Ink/Kraken ecosystem. For questions or contributions, please reach out to the development team.
 
 ***
 
