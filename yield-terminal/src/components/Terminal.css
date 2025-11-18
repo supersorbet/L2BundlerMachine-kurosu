@@ -1,0 +1,164 @@
+.terminal-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.terminal-window {
+  flex: 1;
+  background: var(--terminal-bg);
+  border-radius: 0;
+  border: 2px solid var(--terminal-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 
+    0 0 20px var(--terminal-border),
+    inset 0 0 20px rgba(0, 255, 0, 0.05);
+  position: relative;
+}
+
+/* CRT Screen Effect */
+.terminal-window::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 0, 0.03),
+      rgba(0, 255, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.terminal-output {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.8;
+  position: relative;
+  z-index: 2;
+  /* Vintage terminal font rendering */
+  font-weight: normal;
+  letter-spacing: 0.5px;
+}
+
+.terminal-output::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-output::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.terminal-output::-webkit-scrollbar-thumb {
+  background: var(--terminal-border);
+  border-radius: 4px;
+}
+
+.terminal-output::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+.terminal-line {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  text-shadow: 0 0 3px currentColor;
+}
+
+.terminal-line.info {
+  color: var(--text-secondary);
+  text-shadow: 0 0 3px var(--text-secondary);
+}
+
+.terminal-line.success {
+  color: var(--success);
+  text-shadow: 0 0 5px var(--success);
+}
+
+.terminal-line.error {
+  color: var(--error);
+  text-shadow: 0 0 5px var(--error);
+}
+
+.terminal-line.warning {
+  color: var(--warning);
+  text-shadow: 0 0 5px var(--warning);
+}
+
+.terminal-line.command {
+  color: var(--command);
+  text-shadow: 0 0 3px var(--command);
+}
+
+.prompt {
+  color: var(--prompt);
+  font-weight: bold;
+  user-select: none;
+  flex-shrink: 0;
+  text-shadow: 0 0 5px var(--prompt);
+}
+
+.command {
+  color: var(--command);
+  flex: 1;
+}
+
+.terminal-input-container {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  background: var(--bg-secondary);
+  border-top: 2px solid var(--terminal-border);
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 -5px 10px rgba(0, 255, 0, 0.1);
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--command);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  outline: none;
+  text-shadow: 0 0 3px var(--command);
+  letter-spacing: 0.5px;
+}
+
+.terminal-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cursor {
+  color: var(--accent);
+  animation: blink 1s infinite;
+  text-shadow: 0 0 5px var(--accent);
+  background: var(--accent);
+  width: 8px;
+  height: 16px;
+  display: inline-block;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+

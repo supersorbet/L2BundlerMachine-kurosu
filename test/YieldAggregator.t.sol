@@ -16,7 +16,10 @@ contract YieldAggregatorTest is Test {
     
     address public constant HUB_POOL = address(0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5);
     address public constant TYDRO_POOL = address(0x1234); // Mock
+    address public constant L2_ENCODER = address(0x4321); // Mock encoder
     address public constant ACROSS_SPOKE_POOL = address(0x5678); // Mock
+    address public constant VELO_ROUTER = address(0x9999); // Mock
+    address public constant SLIPSTREAM_POSITION_NFT = address(0xAAAA); // Mock
     
     address public deployer;
     address public user;
@@ -28,8 +31,11 @@ contract YieldAggregatorTest is Test {
         // Deploy L2 vault first
         l2Vault = new BundledYieldVaultV2_PRODUCTION(
             TYDRO_POOL,
+            L2_ENCODER,
             ACROSS_SPOKE_POOL,
-            address(0x1) // L1 recipient placeholder
+            address(0x1), // L1 recipient placeholder
+            VELO_ROUTER,
+            SLIPSTREAM_POSITION_NFT
         );
         
         // Deploy L1 depositor (chain ID 1 for Ethereum mainnet)
@@ -56,7 +62,7 @@ contract YieldAggregatorTest is Test {
         assertEq(l1Depositor.tokenMapping(l1Token), l2Token);
         
         // Set on L2
-        l2Vault.setTokenMapping(l2Token, l1Token);
+        l2Vault.mapToken(l2Token, l1Token);
         assertEq(l2Vault.tokenMapping(l2Token), l1Token);
     }
     
@@ -102,7 +108,7 @@ contract YieldAggregatorTest is Test {
     
     function testSetMinGasBalance() public {
         uint128 newMin = uint128(0.1 ether);
-        l2Vault.setMinGasBalance(newMin);
+        l2Vault.setMinGasBal(newMin);
         assertEq(l2Vault.minGasBalance(), newMin);
     }
     
@@ -119,7 +125,6 @@ contract YieldAggregatorTest is Test {
     function testTokenNotSupported() public {
         address unsupportedToken = address(0x1111111111111111111111111111111111111111);
         
-        // Should revert because token mapping is not set
         vm.expectRevert(L1DepositorV2_PRODUCTION.TokenNotSupported.selector);
         l1Depositor.depositToL2(unsupportedToken, 1000, 950);
     }

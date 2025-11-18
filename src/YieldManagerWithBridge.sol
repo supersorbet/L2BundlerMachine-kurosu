@@ -5,38 +5,44 @@ import {Ownable} from "solady/src/auth/Ownable.sol";
 import {ReentrancyGuard} from "solady/src/utils/ReentrancyGuard.sol";
 import {SafeTransferLib} from "solady/src/utils/SafeTransferLib.sol";
 import {IRelayDepository} from "./interfaces/IRelay.sol";
-import {IPool, IAToken} from "./interfaces/ITydroAAVE.sol";
+import {IL2Pool} from "./interfaces/IL2Pool.sol";
+import {IL2Encoder} from "./interfaces/IL2Encoder.sol";
+import {IAToken} from "./interfaces/ITydroAAVE.sol";
 import {IVeloPair, IVeloRouter} from "./interfaces/IVelodrome.sol";
 
 /// @title YieldManagerWithBridge
 /// @notice Manages yield across Tydro and Velodrome, with Relay Protocol bridge integration
 /// @dev Uses Relay Protocol for L1 transfers (https://docs.relay.link)
-/// @dev Gas-optimized Solady implementation
 contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
     using SafeTransferLib for address;
 
+    error InvalidAddress();
+    error InvalidAmount();
+    error InvalidStrategy();
+    error NoYield();
+    error PairNotFound();
+    error NotDeployedToTydro();
+    error InvalidFee();
+
     /// @dev Relay Depository on L2 (Ink) - where we deposit to bridge to L1
     address public immutable RELAY_DEPOSITORY;
-
     /// @dev L1 chain ID (Ethereum mainnet)
     uint256 public constant L1_CHAIN_ID = 1;
-
     /// @dev Tydro lending pool (AAVE V3 fork)
     address public immutable TYDRO_POOL;
-
+    /// @dev L2 encoder contract (compressed calldata helper)
+    address public immutable L2_ENCODER;
     /// @dev Velodrome router
     address public immutable VELO_ROUTER;
-
     /// @dev L1 recipient address
     address public l1Recipient;
-
     /// @dev Maximum fee willing to pay for bridging (in basis points or absolute)
     uint256 public maxBridgeFee;
 
     /// @dev Strategy tracking - packed for gas efficiency
     struct Position {
         uint128 principal;
-        uint32 lastHarvest; // Truncated timestamp
+        uint32 lastHarvest;///Truncated timestamp
     }
 
     /// @dev token => strategy => position (1 = Tydro, 2 = Velodrome)
@@ -48,36 +54,48 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
     /// @dev pairHash => pair address
     mapping(bytes32 => address) private _veloPairs;
 
-    error InvalidAddress();
-    error InvalidAmount();
-    error InvalidStrategy();
-    error NoYield();
-    error PairNotFound();
-    error NotDeployedToTydro();
-    error InvalidFee();
-
     /// @param _relayDepository Address of Relay Depository on Ink L2
     /// @param _tydroPool Address of Tydro lending pool
+    /// @param _l2Encoder Address of L2 encoder helper
     /// @param _veloRouter Address of Velodrome router
     /// @param _l1Recipient Initial L1 recipient address
     constructor(
         address _relayDepository,
         address _tydroPool,
+        address _l2Encoder,
         address _veloRouter,
         address _l1Recipient
     ) {
         if (_relayDepository == address(0)) revert InvalidAddress();
         if (_tydroPool == address(0)) revert InvalidAddress();
+        if (_l2Encoder == address(0)) revert InvalidAddress();
         if (_veloRouter == address(0)) revert InvalidAddress();
         if (_l1Recipient == address(0)) revert InvalidAddress();
 
         RELAY_DEPOSITORY = _relayDepository;
         TYDRO_POOL = _tydroPool;
+        L2_ENCODER = _l2Encoder;
         VELO_ROUTER = _veloRouter;
         l1Recipient = _l1Recipient;
-        maxBridgeFee = 100; // Default 1% fee (100 bps)
+        maxBridgeFee = 100;///Default 1% fee (100 bps)
 
         _initializeOwner(msg.sender);
+    }
+
+    /// @notice Update L1 recipient address
+    function setL1Recipient(address _newRecipient) external onlyOwner {
+        if (_newRecipient == address(0)) revert InvalidAddress();
+        address oldRecipient = l1Recipient;
+        l1Recipient = _newRecipient;
+        emit L1RecipientUpdated(oldRecipient, _newRecipient);
+    }
+
+    /// @notice Update maximum bridge fee
+    function setMaxBridgeFee(uint256 _maxFee) external onlyOwner {
+        if (_maxFee > 10000) revert InvalidFee();///Max 100%
+        uint256 oldFee = maxBridgeFee;
+        maxBridgeFee = _maxFee;
+        emit MaxBridgeFeeUpdated(oldFee, _maxFee);
     }
 
     /// @notice Bridge tokens to L1 using Relay Protocol
@@ -85,15 +103,16 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
     /// @dev Relayers will fill the order on L1, then settle to claim payment
     function _bridgeToL1(address token, uint256 amount) internal {
         if (amount == 0) revert InvalidAmount();
+       ///Calculate max fee (based on amount and maxBridgeFee setting)
         uint256 calculatedMaxFee = (amount * maxBridgeFee) / 10000;
         SafeTransferLib.safeApprove(token, RELAY_DEPOSITORY, amount);
         bytes32 depositId = IRelayDepository(RELAY_DEPOSITORY).deposit(
-            L1_CHAIN_ID,           // Destination chain (L1 Ethereum)
-            l1Recipient,           // Recipient on L1
-            token,                 // Token to bridge
-            amount,                // Amount to bridge
-            calculatedMaxFee,      // Maximum fee willing to pay
-            block.timestamp + 1 hours // Deadline
+            L1_CHAIN_ID,          ///Destination chain (L1 Ethereum)
+            l1Recipient,          ///Recipient on L1
+            token,                ///Token to bridge
+            amount,               ///Amount to bridge
+            calculatedMaxFee,     ///Maximum fee willing to pay
+            block.timestamp + 1 hours///Deadline
         );
 
         emit DepositInitiated(depositId, token, amount);
@@ -105,12 +124,13 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
         if (amount == 0) revert InvalidAmount();
         SafeTransferLib.safeTransferFrom(token, msg.sender, address(this), amount);
         SafeTransferLib.safeApprove(token, TYDRO_POOL, amount);
-        IPool(TYDRO_POOL).supply(token, amount, address(this), 0);
 
+        bytes32 supplyArgs = IL2Encoder(L2_ENCODER).encodeSupplyParams(token, amount, 0);
+        IL2Pool(TYDRO_POOL).supply(supplyArgs);
+       ///Cache aToken address if not already cached
         if (_aTokens[token] == address(0)) {
             _aTokens[token] = _getATokenAddress(token);
         }
-
         unchecked {
             _positions[token][1].principal += uint128(amount);
             _positions[token][1].lastHarvest = uint32(block.timestamp);
@@ -123,14 +143,14 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
     function _harvestTydro(address token) internal returns (uint256) {
         address aToken = _aTokens[token];
         if (aToken == address(0)) revert NotDeployedToTydro();
-
         uint256 aTokenBalance = IAToken(aToken).balanceOf(address(this));
         uint256 principal = _positions[token][1].principal;
 
         if (aTokenBalance <= principal) return 0;
 
         uint256 yieldAmount = aTokenBalance - principal;
-        IPool(TYDRO_POOL).withdraw(token, yieldAmount, address(this));
+        bytes32 withdrawArgs = IL2Encoder(L2_ENCODER).encodeWithdrawParams(token, yieldAmount);
+        IL2Pool(TYDRO_POOL).withdraw(withdrawArgs);
 
         unchecked {
             _positions[token][1].lastHarvest = uint32(block.timestamp);
@@ -141,7 +161,7 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
 
     /// @notice Get aToken address for an asset
     function _getATokenAddress(address asset) internal view returns (address) {
-        (,,,,,,,,address aTokenAddress,,,,,,) = IPool(TYDRO_POOL).getReserveData(asset);
+        (,,,,,,,,address aTokenAddress,,,,,,) = IL2Pool(TYDRO_POOL).getReserveData(asset);
         return aTokenAddress;
     }
 
@@ -201,7 +221,7 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
     /// @notice Harvest fees from Velodrome
     function _harvestVelo(address tokenA, address tokenB) internal returns (uint256) {
         uint256 totalFees;
-        // Check stable and volatile pairs
+       ///Check both stable and volatile pairs
         for (uint256 i = 0; i < 2;) {
             bool stable = (i == 1);
             bytes32 pairHash = _pairHash(tokenA, tokenB, stable);
@@ -245,7 +265,6 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
     ) external view returns (uint256, uint256) {
         bytes32 pairHash = _pairHash(tokenA, tokenB, stable);
         address pair = _veloPairs[pairHash];
-
         if (pair == address(0)) return (0, 0);
 
         return (
@@ -253,7 +272,6 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
             IVeloPair(pair).claimableFeesToken1()
         );
     }
-
 
     /// @notice Harvest yield from strategy and auto-split 50/50
     /// @param strategyId 1 = Tydro, 2 = Velodrome
@@ -265,7 +283,6 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
         bytes calldata auxData
     ) external onlyOwner nonReentrant {
         uint256 yieldAmount;
-
         if (strategyId == 1) {
             yieldAmount = _harvestTydro(token);
         } else if (strategyId == 2) {
@@ -274,21 +291,22 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
         } else {
             revert InvalidStrategy();
         }
-
         if (yieldAmount == 0) revert NoYield();
-        //50/50
+       ///Split 50/50
         uint256 bridgeAmount = yieldAmount / 2;
         uint256 compoundAmount = yieldAmount - bridgeAmount;
-        // 1. Bridge 50% to L1
+       ///1. Bridge 50% to L1
         _bridgeToL1(token, bridgeAmount);
+       ///2. Re-deploy 50% to same strategy
         if (strategyId == 1) {
             SafeTransferLib.safeApprove(token, TYDRO_POOL, compoundAmount);
-            IPool(TYDRO_POOL).supply(token, compoundAmount, address(this), 0);
+            bytes32 supplyArgs = IL2Encoder(L2_ENCODER).encodeSupplyParams(token, compoundAmount, 0);
+            IL2Pool(TYDRO_POOL).supply(supplyArgs);
             unchecked {
                 _positions[token][1].principal += uint128(compoundAmount);
             }
         }
-        // todo: Velodrome compounding just needs re-adding liq
+       ///todo: compounding needs re-adding liquidity
 
         emit Harvested(strategyId, token, yieldAmount);
     }
@@ -301,26 +319,23 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
     ) external onlyOwner nonReentrant {
         uint256 length = strategyIds.length;
         if (length != tokens.length || length != auxData.length) revert();
-
         for (uint256 i = 0; i < length;) {
             uint256 yieldAmount;
-
             if (strategyIds[i] == 1) {
                 yieldAmount = _harvestTydro(tokens[i]);
             } else if (strategyIds[i] == 2) {
                 address tokenB = abi.decode(auxData[i], (address));
                 yieldAmount = _harvestVelo(tokens[i], tokenB);
             }
-
             if (yieldAmount > 0) {
                 uint256 bridgeAmount = yieldAmount / 2;
                 uint256 compoundAmount = yieldAmount - bridgeAmount;
-
                 _bridgeToL1(tokens[i], bridgeAmount);
 
                 if (strategyIds[i] == 1) {
                     SafeTransferLib.safeApprove(tokens[i], TYDRO_POOL, compoundAmount);
-                    IPool(TYDRO_POOL).supply(tokens[i], compoundAmount, address(this), 0);
+                    bytes32 supplyArgs = IL2Encoder(L2_ENCODER).encodeSupplyParams(tokens[i], compoundAmount, 0);
+                    IL2Pool(TYDRO_POOL).supply(supplyArgs);
                     unchecked {
                         _positions[tokens[i]][1].principal += uint128(compoundAmount);
                     }
@@ -335,10 +350,11 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
         }
     }
 
-
     /// @notice Withdraw from Tydro
     function withdrawFromTydro(address token, uint256 amount) external onlyOwner nonReentrant {
-        uint256 withdrawn = IPool(TYDRO_POOL).withdraw(token, amount, msg.sender);
+        bytes32 withdrawArgs = IL2Encoder(L2_ENCODER).encodeWithdrawParams(token, amount);
+        uint256 withdrawn = IL2Pool(TYDRO_POOL).withdraw(withdrawArgs);
+        SafeTransferLib.safeTransfer(token, msg.sender, withdrawn);
         unchecked {
             _positions[token][1].principal -= uint128(amount);
         }
@@ -355,7 +371,6 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
         bytes32 pairHash = _pairHash(tokenA, tokenB, stable);
         address pair = _veloPairs[pairHash];
         if (pair == address(0)) revert PairNotFound();
-
         SafeTransferLib.safeApprove(pair, VELO_ROUTER, liquidity);
 
         IVeloRouter(VELO_ROUTER).removeLiquidity(
@@ -374,27 +389,20 @@ contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
     }
 
     /// @notice Emergency withdraw any token
-    function emergencyWithdraw(address token) external onlyOwner {
+    function emsWithdraw(address token) external onlyOwner {
         uint256 balance = SafeTransferLib.balanceOf(token, address(this));
         if (balance > 0) {
             SafeTransferLib.safeTransfer(token, msg.sender, balance);
         }
-
-        /// @notice Update L1 recipient address
-    function setL1Recipient(address _newRecipient) external onlyOwner {
-        if (_newRecipient == address(0)) revert InvalidAddress();
-        address oldRecipient = l1Recipient;
-        l1Recipient = _newRecipient;
-        emit L1RecipientUpdated(oldRecipient, _newRecipient);
     }
 
-    /// @notice Update maximum bridge fee
-    function setMaxBridgeFee(uint256 _maxFee) external onlyOwner {
-        if (_maxFee > 10000) revert InvalidFee(); // Max 100%
-        uint256 oldFee = maxBridgeFee;
-        maxBridgeFee = _maxFee;
-        emit MaxBridgeFeeUpdated(oldFee, _maxFee);
-    }
-    }
+    event Deployed(uint256 indexed strategyId, address indexed token, uint256 amount);
+    event Harvested(uint256 indexed strategyId, address indexed token, uint256 yieldAmount);
+    event BridgedToL1(address indexed token, uint256 amount, address indexed l1Recipient);
+    event Withdrawn(uint256 indexed strategyId, address indexed token, uint256 amount);
+    event L1RecipientUpdated(address indexed oldRecipient, address indexed newRecipient);
+    event MaxBridgeFeeUpdated(uint256 oldFee, uint256 newFee);
+    event DepositInitiated(bytes32 indexed depositId, address indexed token, uint256 amount);
+
 }
 

@@ -80,6 +80,43 @@ contract MockAcrossBridge {
         
         emit DepositFilled(depositId);
     }
+
+    /// @notice depositNow mock to match ISpokePool.depositNow signature used by vault
+    function depositNow(
+        address depositor,
+        address recipient,
+        address inputToken,
+        address outputToken,
+        uint256 inputAmount,
+        uint256 outputAmount,
+        uint256 /*destinationChainId*/,
+        uint64 /*relayerFeePct*/,
+        uint32 /*quoteTimestamp*/,
+        bytes calldata /*message*/,
+        uint256 /*maxCount*/
+    ) external {
+        // Pull tokens from depositor
+        inputToken.safeTransferFrom(depositor, address(this), inputAmount);
+        
+        bytes32 depositId = keccak256(abi.encodePacked(
+            recipient,
+            inputToken,
+            outputToken,
+            inputAmount,
+            block.timestamp,
+            block.number
+        ));
+        deposits[depositId] = Deposit({
+            recipient: recipient,
+            inputToken: inputToken,
+            outputToken: outputToken,
+            inputAmount: inputAmount,
+            outputAmount: outputAmount,
+            destinationChainId: 0,
+            filled: false
+        });
+        emit DepositCreated(depositId, recipient, outputToken, outputAmount);
+    }
     
     /// @notice Get deposit info
     function getDeposit(bytes32 depositId) external view returns (Deposit memory) {

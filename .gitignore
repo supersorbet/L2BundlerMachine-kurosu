@@ -7,4 +7,13 @@ broadcast/
 *.sol.backup
 *.swp
 *.swo
+*.md
+*.sh
+!README.md
+!SlipstreamZapTests.t.sol
 
+test/MicroAmountYieldTests.t.sol
+
+node_modules/
+.DS_Store
+gitbook-docs/

@@ -1,0 +1,433 @@
+{
+    "test/ExtensiveTests.t.sol:ExtensiveTests": {
+        "duration": "2ms 105µs 177ns",
+        "test_results": {
+            "testAcrossVsRelayGasComparison()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 1511599
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "1ms 104µs 206ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testAutoGasRefill()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 1142721
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "518µs 474ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testCustomSlippage()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 1138360
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "573µs 718ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testDepositMaximumSlippage()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 77164
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "134µs 363ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testDepositMinimumAmount()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 72582
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "124µs 734ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testDepositMultipleTokens()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 1005826
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "428µs 876ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testDepositWhenPaused()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 64077
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "119µs 695ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testEmergencyWithdraw()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 39989
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "134µs 522ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testEmergencyWithdrawETH()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 55587
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "128µs 221ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testHarvestWithDifferentCompoundRatios()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 1191154
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "950µs 827ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testInsufficientGasError()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 950620
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "406µs 344ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testInsufficientYield()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 920241
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "365µs 26ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testInvalidCompoundPercent()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 941550
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "395µs 403ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testL2VaultNotSet()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 923946
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "121µs 388ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testLargeDeposit()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 263301
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "158µs 628ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testManualGasRefill()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 18220
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "103µs 84ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testMinimumBridgeAmount()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 979278
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "430µs 459ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testMultipleHarvests()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 1249463
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "1ms 201µs 739ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testOnlyOwnerCanDeposit()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 74175
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "127µs 128ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testOnlyOwnerCanHarvest()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 941064
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "326µs 895ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testOnlyOwnerCanPause()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 13674
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "27µs 682ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testReentrancyProtection()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 1176
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "84µs 138ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testTokenNotSupported()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 589634
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "168µs 66ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testYieldAccrualOverTime()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 963545
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "535µs 917ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            },
+            "testYieldCompounding()": {
+                "status": "Success",
+                "reason": null,
+                "counterexample": null,
+                "logs": [],
+                "decoded_logs": [],
+                "kind": {
+                    "Unit": {
+                        "gas": 1178478
+                    }
+                },
+                "traces": [],
+                "labeled_addresses": {},
+                "duration": "643µs 729ns",
+                "breakpoints": {},
+                "gas_snapshots": {}
+            }
+        },
+        "warnings": []
+    }
+}

@@ -9,24 +9,50 @@ import {BundledYieldVaultV2_PRODUCTION} from "../src/BundledYieldVaultV2_PRODUCT
  * @notice Deployment script for BundledYieldVaultV2_PRODUCTION on Ink L2
  */
 contract DeployL2 is Script {
-    // You need to set these addresses based on Ink documentation
-    address constant TYDRO_POOL = address(0); // TODO: Set Tydro pool address from Ink docs
-    address constant ACROSS_SPOKE_POOL = address(0); // TODO: Set Across SpokePool address on Ink
+    // Ink L2 addresses (Chain ID: 57073)
+    address constant TYDRO_POOL = 0x2816cf15F6d2A220E789aA011D5EE4eB6c47FEbA; // Tydro IPool on Ink
+    address constant L2_ENCODER = 0x988B5d3863bdEE83339Be41cD31344Dfd9FD197c; // Tydro L2Encoder on Ink
+    address constant ACROSS_SPOKE_POOL = 0xeF684C38F94F48775959ECf2012D7E864ffb9dd4; // Across SpokePool on Ink
+    address constant VELO_ROUTER = 0x01D40099fCD87C018969B0e8D4aB1633Fb34763C; // Velodrome Universal Router on Ink
+    address constant SLIPSTREAM_POSITION_NFT = 0x991d5546C4B442B4c5fdc4c8B8b8d131DEB24702;
     
     function run() external returns (address deployed) {
-        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-        address l1Recipient = vm.envAddress("L1_RECIPIENT"); // L1 depositor address
+        // Handle private key with or without 0x prefix
+        string memory privateKeyStr = vm.envString("PRIVATE_KEY");
+        uint256 deployerPrivateKey;
+        bytes memory keyBytes = bytes(privateKeyStr);
+        if (keyBytes.length > 2 && keyBytes[0] == '0' && keyBytes[1] == 'x') {
+            deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        } else {
+            // Parse as hex without 0x prefix
+            deployerPrivateKey = vm.parseUint(string.concat("0x", privateKeyStr));
+        }
+        // L1 recipient - use deployer address if not set (can update later)
+        address l1Recipient;
+        try vm.envAddress("L1_RECIPIENT") returns (address recipient) {
+            l1Recipient = recipient;
+        } catch {
+            // Use deployer address as fallback (can update later via setL1Recipient)
+            l1Recipient = vm.addr(deployerPrivateKey);
+            console.log("L1_RECIPIENT not set, using deployer address:", l1Recipient);
+            console.log("You can update this later by calling setL1Recipient() on the vault");
+        }
         
         require(TYDRO_POOL != address(0), "Set TYDRO_POOL address");
+        require(L2_ENCODER != address(0), "Set L2_ENCODER address");
         require(ACROSS_SPOKE_POOL != address(0), "Set ACROSS_SPOKE_POOL address");
+        require(VELO_ROUTER != address(0), "Set VELO_ROUTER address");
         
         vm.startBroadcast(deployerPrivateKey);
         
         // Deploy L2 Vault
         BundledYieldVaultV2_PRODUCTION vault = new BundledYieldVaultV2_PRODUCTION(
             TYDRO_POOL,
+            L2_ENCODER,
             ACROSS_SPOKE_POOL,
-            l1Recipient
+            l1Recipient,
+            VELO_ROUTER,
+            SLIPSTREAM_POSITION_NFT
         );
         
         vm.stopBroadcast();
@@ -36,6 +62,7 @@ contract DeployL2 is Script {
         console.log("L1 Recipient:", vault.l1Recipient());
         console.log("Tydro Pool:", vault.TYDRO_POOL());
         console.log("Across SpokePool:", vault.ACROSS_SPOKE_POOL());
+        console.log("Velodrome Router:", vault.VELO_ROUTER());
         
         // Fund with gas
         console.log("\nTo fund the vault with gas, run:");

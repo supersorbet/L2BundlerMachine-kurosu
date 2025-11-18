@@ -1,0 +1,368 @@
+No files changed, compilation skipped
+
+Ran 15 tests for test/MainnetFork.t.sol:MainnetForkTest
+[PASS] testAcrossCalldataPreview() (gas: 23004)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+  Across calldata preview
+  slippageBps: 100
+  amount: 50000000
+  min: 49500000
+  calldataLen: 356
+  amount: 100000000
+  min: 99000000
+  calldataLen: 356
+  amount: 250000000
+  min: 247500000
+  calldataLen: 356
+  amount: 1000000000
+  min: 990000000
+  calldataLen: 356
+
+[PASS] testDepositToL2OnlyOwner() (gas: 90196)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+
+[PASS] testDepositToL2RevertsWhenPaused() (gas: 174260)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+
+[PASS] testForkCheck() (gas: 7789)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+  Fork check passed - on mainnet fork
+  Block number: 23782789
+  Block timestamp: 1762946171
+
+[PASS] testFullE2EFlowAcross() (gas: 1553832)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+  === E2E Test: Across Bridge ===
+  Step 1: L1 Treasury USDT balance: 200000000
+  !!! Step 1: L1 deposit revert
+  revert data length: 4
+  0x850c6f7600000000000000000000000000000000000000000000000000000000
+  --- Across HubPool deposit logs ---
+  entry count: 1
+  log# 0
+  emitter: 0xdAC17F958D2ee523a2206206994597C13D831ec7
+  topics: 3
+  0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925
+  0x00000000000000000000000000000009eee278329552382a472a7d06c773d7b3
+  0x000000000000000000000000f62849f9a0b5bf2913b396098f7c7019b51a820a
+  data length: 32
+  0x0000000000000000000000000000000000000000000000000000000005f5e100
+  Step 1: L1 Treasury USDT balance after: 200000000
+  Step 2: L2 Treasury USDT0 balance before fill: 500000814
+  Step 2: L2 Treasury USDT0 balance after fill: 599000814
+  Step 3: L2 deposit to Tydro executed, amount: 99000000
+  --- Tydro deposit logs ---
+  entry count: 11
+  log# 0
+  emitter: 0x0200C29006150606B650577BBE7B6248F58470c1
+  topics: 3
+  0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
+  0x00000000000000000000000000000009eee278329552382a472a7d06c773d7b3
+  0x0000000000000000000000005615deb798bb3e4dfa0139dfa1b3d433cc23b72f
+  data length: 32
+  0x0000000000000000000000000000000000000000000000000000000005e69ec0
+  log# 1
+  emitter: 0x0200C29006150606B650577BBE7B6248F58470c1
+  topics: 3
+  0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925
+  0x00000000000000000000000000000009eee278329552382a472a7d06c773d7b3
+  0x0000000000000000000000005615deb798bb3e4dfa0139dfa1b3d433cc23b72f
+  data length: 32
+  0x0000000000000000000000000000000000000000000000000000000000000000
+  log# 2
+  emitter: 0x0200C29006150606B650577BBE7B6248F58470c1
+  topics: 3
+  0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925
+  0x0000000000000000000000005615deb798bb3e4dfa0139dfa1b3d433cc23b72f
+  0x0000000000000000000000002816cf15f6d2a220e789aa011d5ee4eb6c47feba
+  data length: 32
+  0x0000000000000000000000000000000000000000000000000000000005e69ec0
+  log# 3
+  emitter: 0x2816cf15F6d2A220E789aA011D5EE4eB6c47FEbA
+  topics: 2
+  0x804c9b842b2748a22bb64b345453a3de7ca54a6ca45ce00d415894979e22897a
+  0x0000000000000000000000000200c29006150606b650577bbe7b6248f58470c1
+  data length: 160
+  0x0000000000000000000000000000000000000000000c015cfab526fbe6f998d9
+  0x0000000000000000000000000000000000000000000000000000000000000000
+  ...(additional data omitted)
+  log# 4
+  emitter: 0x0200C29006150606B650577BBE7B6248F58470c1
+  topics: 3
+  0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
+  0x0000000000000000000000005615deb798bb3e4dfa0139dfa1b3d433cc23b72f
+  0x00000000000000000000000099cbf1ff4527675ed3301671105c9f7748fb8a04
+  data length: 32
+  0x0000000000000000000000000000000000000000000000000000000005e69ec0
+  ...additional logs omitted
+  Injected simulated yield via supply: 5000000
+  === Reserve snapshot: Post-yield reserve data (Across path) ===
+  configuration: 7237005577332262213973186568752005780840647971109873585926450172226866519372
+  liquidityIndex: 1000927997134746452187383001
+  currentLiquidityRate: 14513546418588234413084983
+  variableBorrowIndex: 1002140683814451120574406046
+  currentVariableBorrowRate: 31392478713549884059026797
+  currentStableBorrowRate: 0
+  lastUpdateTimestamp: 1762946178
+  reserveId: 2
+  aTokenAddress: 0x99cBF1Ff4527675Ed3301671105C9F7748fb8a04
+  stableDebtTokenAddress: 0x0000000000000000000000000000000000000000
+  variableDebtTokenAddress: 0xA5d61eF3D06234371507e54FB709F401E590719a
+  interestRateStrategyAddress: 0xCFDAdA7DCd2e785cF706BaDBC2B8Af5084d595e9
+  accruedToTreasury: 3063651345
+  unbacked: 0
+  isolationModeTotalDebt: 0
+  Step 5: Tydro status - deposited: 99000000
+  Step 5: Tydro status - current: 103999999
+  Step 5: Tydro status - yield: 4999999
+  !!! Step 6: Harvest & bridge revert
+  revert data length: 4
+  0x750b219c00000000000000000000000000000000000000000000000000000000
+  --- Across harvest logs ---
+  entry count: 19
+  log# 0
+  emitter: 0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f
+  topics: 2
+  0x18cb9436df0c2ab8f3a0284742076c6ddf8a478776316b4b0d008d7937235490
+  0x0000000000000000000000000200c29006150606b650577bbe7b6248f58470c1
+  data length: 32
+  0x00000000000000000000000000000000000000000000000000000000004c4b3f
+  log# 1
+  emitter: 0x2816cf15F6d2A220E789aA011D5EE4eB6c47FEbA
+  topics: 2
+  0x804c9b842b2748a22bb64b345453a3de7ca54a6ca45ce00d415894979e22897a
+  0x0000000000000000000000000200c29006150606b650577bbe7b6248f58470c1
+  data length: 160
+  0x0000000000000000000000000000000000000000000c015dff8164153718e1dc
+  0x0000000000000000000000000000000000000000000000000000000000000000
+  ...(additional data omitted)
+  log# 2
+  emitter: 0x99cBF1Ff4527675Ed3301671105C9F7748fb8a04
+  topics: 3
+  0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
+  0x0000000000000000000000005615deb798bb3e4dfa0139dfa1b3d433cc23b72f
+  0x0000000000000000000000000000000000000000000000000000000000000000
+  data length: 32
+  0x000000000000000000000000000000000000000000000000000000000632e9ff
+  log# 3
+  emitter: 0x99cBF1Ff4527675Ed3301671105C9F7748fb8a04
+  topics: 3
+  0x4cf25bc1d991c17529c25213d3cc0cda295eeaad5f13f361969b12ea48015f90
+  0x0000000000000000000000005615deb798bb3e4dfa0139dfa1b3d433cc23b72f
+  0x0000000000000000000000005615deb798bb3e4dfa0139dfa1b3d433cc23b72f
+  data length: 96
+  0x000000000000000000000000000000000000000000000000000000000632e9ff
+  0x0000000000000000000000000000000000000000000000000000000000000000
+  ...(additional data omitted)
+  log# 4
+  emitter: 0x0200C29006150606B650577BBE7B6248F58470c1
+  topics: 3
+  0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
+  0x00000000000000000000000099cbf1ff4527675ed3301671105c9f7748fb8a04
+  0x0000000000000000000000005615deb798bb3e4dfa0139dfa1b3d433cc23b72f
+  data length: 32
+  0x000000000000000000000000000000000000000000000000000000000632e9ff
+  ...additional logs omitted
+  Halting E2E flow after harvest failure
+
+[PASS] testFullE2EFlowRelay() (gas: 29659716)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+  === E2E Test: Relay Protocol ===
+  Step 1: L2 Treasury USDT0 balance: 500000814
+  !!! Step 1: Relay vault deposit revert
+  revert data length: 4
+  0x79cacff100000000000000000000000000000000000000000000000000000000
+  --- Relay vault deposit logs ---
+  entry count: 3
+  log# 0
+  emitter: 0x0200C29006150606B650577BBE7B6248F58470c1
+  topics: 3
+  0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
+  0x00000000000000000000000000000009eee278329552382a472a7d06c773d7b3
+  0x0000000000000000000000002e234dae75c793f67a35089c9d99245e1c58470b
+  data length: 32
+  0x0000000000000000000000000000000000000000000000000000000005f5e100
+  log# 1
+  emitter: 0x0200C29006150606B650577BBE7B6248F58470c1
+  topics: 3
+  0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925
+  0x00000000000000000000000000000009eee278329552382a472a7d06c773d7b3
+  0x0000000000000000000000002e234dae75c793f67a35089c9d99245e1c58470b
+  data length: 32
+  0x0000000000000000000000000000000000000000000000000000000000000000
+  log# 2
+  emitter: 0x0200C29006150606B650577BBE7B6248F58470c1
+  topics: 3
+  0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925
+  0x0000000000000000000000002e234dae75c793f67a35089c9d99245e1c58470b
+  0x0000000000000000000000002816cf15f6d2a220e789aa011d5ee4eb6c47feba
+  data length: 32
+  0x0000000000000000000000000000000000000000000000000000000005f5e100
+  Halting Relay E2E flow after deposit failure
+
+[PASS] testHighGasPriceSimulation() (gas: 9685)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+  Fork check passed - on mainnet fork
+  Block number: 23782789
+  Block timestamp: 1762946171
+  Simulated gas price: 200000000000
+
+[PASS] testInkReserveSnapshot() (gas: 1056947444)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+  Skipping: Ink getReserveData reverted (RPC/fork not active)
+
+[PASS] testInkTydroIntrospection() (gas: 1056947381)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+  Skipping: Ink getReserveData reverted (RPC/fork not active)
+
+[PASS] testL2VaultAcrossPaused() (gas: 184267)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+
+[PASS] testL2VaultRelayUnmappedToken() (gas: 64815)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+
+[PASS] testRealYieldHarvest() (gas: 3444)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+  Real yield harvest test - requires real Tydro pool
+
+[PASS] testRelayCalldataPreview() (gas: 22041)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+  Relay calldata preview
+  feeBps: 100
+  amount: 50000000
+  maxFee: 500000
+  deadline: 1763032578
+  calldataLen: 196
+  amount: 100000000
+  maxFee: 1000000
+  deadline: 1763032578
+  calldataLen: 196
+  amount: 250000000
+  maxFee: 2500000
+  deadline: 1763032578
+  calldataLen: 196
+  amount: 1000000000
+  maxFee: 10000000
+  deadline: 1763032578
+  calldataLen: 196
+
+[PASS] testSmallDepositAcross() (gas: 151791)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+  L1 USDT balance pre: 200000000
+  Across deposit reverted (expected if insufficient balance/allowance)
+  L1 USDT balance post: 200000000
+
+[PASS] testSmallDepositRelay() (gas: 29644591)
+Logs:
+  Seeded L1 USDT to treasury
+  Seeded L2 USDT0 to treasury
+  Ink L2 USDT0 balance pre: 500000814
+  Relay vault deposit reverted (pool may require conditions)
+  Ink L2 USDT0 balance post: 500000814
+
+Suite result: ok. 15 passed; 0 failed; 0 skipped; finished in 66.58s (29.43s CPU time)
+
+╭--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------╮
+| src/BundledYieldVaultV2_PRODUCTION.sol:BundledYieldVaultV2_PRODUCTION Contract |                 |        |        |        |         |
++=======================================================================================================================================+
+| Deployment Cost                                                                | Deployment Size |        |        |        |         |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+| 1694104                                                                        | 7765            |        |        |        |         |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+|                                                                                |                 |        |        |        |         |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+| Function Name                                                                  | Min             | Avg    | Median | Max    | # Calls |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+| deposit                                                                        | 26261           | 177699 | 177699 | 329138 | 2       |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+| getStatus                                                                      | 4737            | 4737   | 4737   | 4737   | 1       |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+| harvestAndBridge                                                               | 334976          | 334976 | 334976 | 334976 | 1       |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+| pause                                                                          | 45812           | 45812  | 45812  | 45812  | 1       |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+| setL1Recipient                                                                 | 30631           | 30631  | 30631  | 30631  | 15      |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+| setTokenMapping                                                                | 48445           | 48445  | 48445  | 48445  | 15      |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+| transferOwnership                                                              | 28924           | 28924  | 28924  | 28924  | 15      |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+| unpause                                                                        | 23714           | 23714  | 23714  | 23714  | 1       |
+|--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------|
+| updateYield                                                                    | 62221           | 62221  | 62221  | 62221  | 1       |
+╰--------------------------------------------------------------------------------+-----------------+--------+--------+--------+---------╯
+
+╭----------------------------------------------------------------------+-----------------+----------+----------+----------+---------╮
+| src/BundledYieldVaultV2_RELAY.sol:BundledYieldVaultV2_RELAY Contract |                 |          |          |          |         |
++===================================================================================================================================+
+| Deployment Cost                                                      | Deployment Size |          |          |          |         |
+|----------------------------------------------------------------------+-----------------+----------+----------+----------+---------|
+| 1691294                                                              | 7667            |          |          |          |         |
+|----------------------------------------------------------------------+-----------------+----------+----------+----------+---------|
+|                                                                      |                 |          |          |          |         |
+|----------------------------------------------------------------------+-----------------+----------+----------+----------+---------|
+| Function Name                                                        | Min             | Avg      | Median   | Max      | # Calls |
+|----------------------------------------------------------------------+-----------------+----------+----------+----------+---------|
+| deposit                                                              | 50426           | 19705712 | 29533355 | 29533355 | 3       |
+|----------------------------------------------------------------------+-----------------+----------+----------+----------+---------|
+| setL1Recipient                                                       | 30634           | 30634    | 30634    | 30634    | 15      |
+|----------------------------------------------------------------------+-----------------+----------+----------+----------+---------|
+| setTokenMapping                                                      | 48457           | 48457    | 48457    | 48457    | 15      |
+|----------------------------------------------------------------------+-----------------+----------+----------+----------+---------|
+| transferOwnership                                                    | 28968           | 28968    | 28968    | 28968    | 15      |
+╰----------------------------------------------------------------------+-----------------+----------+----------+----------+---------╯
+
+╭--------------------------------------------------------------------+-----------------+-------+--------+-------+---------╮
+| src/L1DepositorV2_PRODUCTION.sol:L1DepositorV2_PRODUCTION Contract |                 |       |        |       |         |
++=========================================================================================================================+
+| Deployment Cost                                                    | Deployment Size |       |        |       |         |
+|--------------------------------------------------------------------+-----------------+-------+--------+-------+---------|
+| 940136                                                             | 4180            |       |        |       |         |
+|--------------------------------------------------------------------+-----------------+-------+--------+-------+---------|
+|                                                                    |                 |       |        |       |         |
+|--------------------------------------------------------------------+-----------------+-------+--------+-------+---------|
+| Function Name                                                      | Min             | Avg   | Median | Max   | # Calls |
+|--------------------------------------------------------------------+-----------------+-------+--------+-------+---------|
+| depositToL2                                                        | 24177           | 40176 | 40711  | 55105 | 4       |
+|--------------------------------------------------------------------+-----------------+-------+--------+-------+---------|
+| pause                                                              | 45751           | 45751 | 45751  | 45751 | 1       |
+|--------------------------------------------------------------------+-----------------+-------+--------+-------+---------|
+| setTokenMapping                                                    | 48363           | 48363 | 48363  | 48363 | 15      |
+|--------------------------------------------------------------------+-----------------+-------+--------+-------+---------|
+| setYieldReceiver                                                   | 47966           | 47966 | 47966  | 47966 | 15      |
+|--------------------------------------------------------------------+-----------------+-------+--------+-------+---------|
+| transferOwnership                                                  | 28871           | 28871 | 28871  | 28871 | 15      |
+|--------------------------------------------------------------------+-----------------+-------+--------+-------+---------|
+| unpause                                                            | 23675           | 23675 | 23675  | 23675 | 1       |
+╰--------------------------------------------------------------------+-----------------+-------+--------+-------+---------╯
+
+
+Ran 1 test suite in 66.58s (66.58s CPU time): 15 tests passed, 0 failed, 0 skipped (15 total tests)

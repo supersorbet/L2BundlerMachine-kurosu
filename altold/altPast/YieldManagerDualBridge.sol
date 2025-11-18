@@ -5,18 +5,17 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-/**
- * @title YieldManagerDualBridge
- * @notice Manages yield across Tydro and Velodrome with DUAL bridge support
- * @dev Supports both Across Protocol (fast) AND native L2StandardBridge (fallback)
- */
+
+///@title YieldManagerDualBridge
+///@notice Manages yield across Tydro and Velodrome with DUAL bridge support
+///@dev Supports both Across Protocol (fast) AND native L2StandardBridge (fallback)
 contract YieldManagerDualBridge is Ownable {
     using SafeERC20 for IERC20;
 
-    /**
-     * @notice Across Protocol SpokePool (Fast Bridge - 2 seconds)
-     * @dev Intent-based bridge with competitive relayers
-     */
+    
+    ///@notice Across Protocol SpokePool (Fast Bridge - 2 seconds)
+    ///@dev Intent-based bridge with competitive relayers
+
     interface IAcrossSpokePool {
         function depositV3(
             address depositor,
@@ -34,10 +33,10 @@ contract YieldManagerDualBridge is Ownable {
         ) external payable;
     }
 
-    /**
-     * @notice L2StandardBridge (Native Bridge - 7 days)
-     * @dev Standard OP Stack bridge with fraud proofs
-     */
+    
+    ///@notice L2StandardBridge (Native Bridge - 7 days)
+    ///@dev Standard OP Stack bridge with fraud proofs
+
     interface IL2StandardBridge {
         function withdrawTo(
             address _l2Token,
@@ -206,12 +205,11 @@ contract YieldManagerDualBridge is Ownable {
    ///DUAL BRIDGE IMPLEMENTATION
    ///❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 
-    /**
-     * @notice Bridge tokens to L1 using specified bridge type
-     * @param token Token to bridge
-     * @param amount Amount to bridge
-     * @param bridgeType Which bridge to use (ACROSS or NATIVE)
-     */
+    
+    ///@notice Bridge tokens to L1 using specified bridge type
+    ///@param token Token to bridge
+    ///@param amount Amount to bridge
+    ///@param bridgeType Which bridge to use (ACROSS or NATIVE)
     function _bridgeToL1(
         address token,
         uint256 amount,
@@ -232,17 +230,14 @@ contract YieldManagerDualBridge is Ownable {
         emit BridgedToL1(token, amount, l1Recipient, bridgeType);
     }
 
-    /**
-     * @notice Bridge via Across Protocol (Fast - 2 seconds)
-     * @dev Uses intent-based relayers for instant fills
-     */
+    
+    ///@notice Bridge via Across Protocol (Fast - 2 seconds)
+    ///@dev Uses intent-based relayers for instant fills
     function _bridgeViaAcross(address token, uint256 amount) internal {
        ///Calculate output amount with slippage
-        uint256 outputAmount = amount * (10000 - acrossSlippageBps) / 10000;
-        
+        uint256 outputAmount = amount///(10000 - acrossSlippageBps) / 10000;
        ///Approve Across SpokePool
         IERC20(token).safeIncreaseAllowance(ACROSS_SPOKE_POOL, amount);
-        
        ///Bridge via Across Protocol
         IAcrossSpokePool(ACROSS_SPOKE_POOL).depositV3(
             address(this),                         ///depositor
@@ -260,14 +255,12 @@ contract YieldManagerDualBridge is Ownable {
         );
     }
 
-    /**
-     * @notice Bridge via native L2StandardBridge (Slow - 7 days)
-     * @dev Standard OP Stack bridge with fraud proof period
-     */
+    
+    ///@notice Bridge via native L2StandardBridge (Slow - 7 days)
+    ///@dev Standard OP Stack bridge with fraud proof period
     function _bridgeViaNative(address token, uint256 amount) internal {
        ///Approve native bridge
         IERC20(token).safeIncreaseAllowance(L2_STANDARD_BRIDGE, amount);
-        
        ///Bridge via native L2StandardBridge
         IL2StandardBridge(L2_STANDARD_BRIDGE).withdrawTo(
             token,                 ///L2 token address
@@ -278,17 +271,14 @@ contract YieldManagerDualBridge is Ownable {
         );
     }
 
-    /**
-     * @notice Bridge using default bridge type
-     */
+    
+    ///@notice Bridge using default bridge type
     function _bridgeToL1Default(address token, uint256 amount) internal {
         _bridgeToL1(token, amount, defaultBridge);
     }
 
-    /**
-     * @notice Try Across first, fallback to native if it fails
-     * @dev Provides maximum reliability
-     */
+    ///@notice Try Across first, fallback to native if it fails
+    ///@dev Provides maximum reliability
     function _bridgeToL1WithFallback(address token, uint256 amount) internal {
         try this.externalBridgeViaAcross(token, amount) {
            ///Across succeeded
@@ -304,26 +294,22 @@ contract YieldManagerDualBridge is Ownable {
         }
     }
 
-    /**
-     * @notice External function for try/catch pattern
-     */
+    
+    ///@notice External function for try/catch pattern
     function externalBridgeViaAcross(address token, uint256 amount) external {
         require(msg.sender == address(this), "Only self");
         _bridgeViaAcross(token, amount);
     }
 
    ///❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-   ///TYDRO (AAVE V3 FORK) INTEGRATION
+   ///TYDRO (AAVE V3) INTEGRATION
    ///❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 
     function deployToTydro(address token, uint256 amount) external onlyOwner {
         require(amount > 0, "Invalid amount");
-        
         IERC20(token).safeTransferFrom(msg.sender, address(this), amount);
         IERC20(token).safeIncreaseAllowance(TYDRO_POOL, amount);
-        
         IPool(TYDRO_POOL).supply(token, amount, address(this), 0);
-        
         if (_aTokens[token] == address(0)) {
             _aTokens[token] = _getATokenAddress(token);
         }
@@ -337,17 +323,14 @@ contract YieldManagerDualBridge is Ownable {
     function _harvestTydro(address token) internal returns (uint256) {
         address aToken = _aTokens[token];
         require(aToken != address(0), "Not deployed to Tydro");
-        
         uint256 aTokenBalance = IAToken(aToken).balanceOf(address(this));
         uint256 principal = _positions[token][1].principal;
-        
         if (aTokenBalance <= principal) return 0;
         
         uint256 yieldAmount = aTokenBalance - principal;
         IPool(TYDRO_POOL).withdraw(token, yieldAmount, address(this));
         
         _positions[token][1].lastHarvest = block.timestamp;
-        
         return yieldAmount;
     }
 
@@ -385,10 +368,8 @@ contract YieldManagerDualBridge is Ownable {
     ) external onlyOwner {
         IERC20(tokenA).safeTransferFrom(msg.sender, address(this), amountA);
         IERC20(tokenB).safeTransferFrom(msg.sender, address(this), amountB);
-        
         IERC20(tokenA).safeIncreaseAllowance(VELO_ROUTER, amountA);
         IERC20(tokenB).safeIncreaseAllowance(VELO_ROUTER, amountB);
-        
         (,, uint256 liquidity) = IVeloRouter(VELO_ROUTER).addLiquidity(
             tokenA, tokenB, stable,
             amountA, amountB, 0, 0,
@@ -408,7 +389,6 @@ contract YieldManagerDualBridge is Ownable {
 
     function _harvestVelo(address tokenA, address tokenB) internal returns (uint256) {
         uint256 totalFees;
-        
         for (uint256 i = 0; i < 2; i++) {
             bool stable = (i == 1);
             bytes32 pairHash = _pairHash(tokenA, tokenB, stable);
@@ -449,9 +429,7 @@ contract YieldManagerDualBridge is Ownable {
    ///UNIFIED HARVEST WITH BRIDGE SELECTION
    ///❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 
-    /**
-     * @notice Harvest yield using default bridge
-     */
+    ///@notice Harvest yield using default bridge
     function harvest(
         uint256 strategyId,
         address token,
@@ -460,9 +438,8 @@ contract YieldManagerDualBridge is Ownable {
         _harvestWithBridge(strategyId, token, auxData, defaultBridge);
     }
 
-    /**
-     * @notice Harvest yield with specific bridge type
-     */
+    
+    ///@notice Harvest yield with specific bridge type
     function harvestWithBridge(
         uint256 strategyId,
         address token,
@@ -472,9 +449,8 @@ contract YieldManagerDualBridge is Ownable {
         _harvestWithBridge(strategyId, token, auxData, bridgeType);
     }
 
-    /**
-     * @notice Harvest yield with automatic fallback
-     */
+    
+    ///@notice Harvest yield with automatic fallback
     function harvestWithFallback(
         uint256 strategyId,
         address token,
@@ -482,23 +458,19 @@ contract YieldManagerDualBridge is Ownable {
     ) external onlyOwner {
         uint256 yieldAmount = _getYieldAmount(strategyId, token, auxData);
         require(yieldAmount > 0, "No yield");
-        
        ///Split 50/50
         uint256 bridgeAmount = yieldAmount / 2;
         uint256 compoundAmount = yieldAmount - bridgeAmount;
-        
        ///Bridge with fallback
         _bridgeToL1WithFallback(token, bridgeAmount);
-        
        ///Compound
         _compoundYield(strategyId, token, compoundAmount);
         
         emit Harvested(strategyId, token, yieldAmount);
     }
 
-    /**
-     * @notice Internal harvest implementation
-     */
+    
+    ///@notice Internal harvest implementation
     function _harvestWithBridge(
         uint256 strategyId,
         address token,
@@ -507,14 +479,11 @@ contract YieldManagerDualBridge is Ownable {
     ) internal {
         uint256 yieldAmount = _getYieldAmount(strategyId, token, auxData);
         require(yieldAmount > 0, "No yield");
-        
        ///Split 50/50
         uint256 bridgeAmount = yieldAmount / 2;
         uint256 compoundAmount = yieldAmount - bridgeAmount;
-        
        ///Bridge using specified type
         _bridgeToL1(token, bridgeAmount, bridgeType);
-        
        ///Compound
         _compoundYield(strategyId, token, compoundAmount);
         
@@ -532,7 +501,7 @@ contract YieldManagerDualBridge is Ownable {
             address tokenB = abi.decode(auxData, (address));
             return _harvestVelo(token, tokenB);
         } else {
-            revert("Invalid strategy");
+            revert("Invalid strat");
         }
     }
 
@@ -546,12 +515,11 @@ contract YieldManagerDualBridge is Ownable {
             IPool(TYDRO_POOL).supply(token, amount, address(this), 0);
             _positions[token][1].principal += amount;
         }
-       ///Note: Velodrome compounding would require re-adding liquidity
+       ///TODO::::::::: velodrome compounding needs re-adding liquidity
     }
 
-    /**
-     * @notice Batch harvest with mixed bridge types
-     */
+    
+    ///@notice Batch harvest with mixed bridge types
     function batchHarvest(
         uint256[] calldata strategyIds,
         address[] calldata tokens,
@@ -561,10 +529,8 @@ contract YieldManagerDualBridge is Ownable {
         require(strategyIds.length == tokens.length, "Length mismatch");
         require(tokens.length == auxData.length, "Length mismatch");
         require(auxData.length == bridgeTypes.length, "Length mismatch");
-        
         for (uint256 i = 0; i < strategyIds.length; i++) {
             uint256 yieldAmount = _getYieldAmount(strategyIds[i], tokens[i], auxData[i]);
-            
             if (yieldAmount > 0) {
                 uint256 bridgeAmount = yieldAmount / 2;
                 uint256 compoundAmount = yieldAmount - bridgeAmount;
@@ -578,7 +544,7 @@ contract YieldManagerDualBridge is Ownable {
     }
 
    ///❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-   ///BRIDGE STATISTICS
+   ///BRIDGE STATs
    ///❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 
     function getBridgeStats(BridgeType bridgeType) external view returns (
@@ -589,7 +555,7 @@ contract YieldManagerDualBridge is Ownable {
     }
 
    ///❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-   ///EMERGENCY FUNCTIONS
+   ///EMERGENCY
    ///❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 
     function withdrawFromTydro(address token, uint256 amount) external onlyOwner {

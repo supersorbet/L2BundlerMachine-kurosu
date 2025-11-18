@@ -1,0 +1,70 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Vintage Terminal Colors - Green on Black */
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #001100;
+  --terminal-bg: #000000;
+  --terminal-border: #00ff00;
+  --text-primary: #00ff00;
+  --text-secondary: #00cc00;
+  --text-muted: #008800;
+  --accent: #00ff00;
+  --accent-hover: #00ff88;
+  --success: #00ff00;
+  --warning: #ffff00;
+  --error: #ff0000;
+  --prompt: #00ff00;
+  --command: #00ff00;
+  --yield: #00ff88;
+  --font-mono: 'Courier New', 'Courier', 'Monaco', 'Menlo', monospace;
+  
+  /* CRT Effect */
+  --scanline-opacity: 0.03;
+  --glow-intensity: 2px;
+}
+
+body {
+  font-family: var(--font-mono);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+  margin: 0;
+  /* CRT Scanline Effect */
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 0, var(--scanline-opacity)),
+      rgba(0, 255, 0, var(--scanline-opacity)) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  /* Text glow effect */
+  text-shadow: 0 0 var(--glow-intensity) var(--text-primary);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* CRT Screen Curvature Effect */
+#root::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+  pointer-events: none;
+  z-index: 9999;
+}
+
