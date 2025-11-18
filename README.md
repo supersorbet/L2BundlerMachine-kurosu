@@ -8,18 +8,18 @@
 
 ## Overview
 
-The L1-L2 InkBundler is an easy to use system that enables seamless yield farming across Ethereum (L1) and Ink L2. Users can deposit assets on L1, automatically bridge them to L2 for optimal yield opportunities, and receive yield back on L1—all while maintaining full control through private, owner-only vaults.
+The Ink Yield Bundler enables seamless cross-chain yield farming between Ethereum L1 and Ink L2. Deposit assets on L1, automatically bridge to L2 for optimal yields, and receive returns on L1—all through private, owner-controlled vaults.
 
 ### Key Features
 
 * 🔄 **Cross-Chain Bridging**: Seamless L1↔L2 transfers via Across Protocol
-* 💰 **Multi-Strategy Yield**: Support for Tydro (lending) and Velodrome (liquidity provision)
-* 🏭 **Factory Pattern**: Deploy your own private vault instances
-* 🛡️ **Security First**: Owner-only operations, reentrancy guards, circuit breakers
-* ⚡ **Gas Optimized**: Built with Solady for hyper efficiency
-* 🤖 **Keeper-Friendly**: Auto-deposit and harvest functions for automation
-* 📊 **Smart Allocation**: Dynamic yield strategy allocation via YieldAllocator utils
-* 🚀 **Future-Ready**: Plans to integrate Curve.fi, Velodrome automation integration and decentralized keeper bots
+* 💰 **Multi-Strategy Yield**: Tydro (lending), Velodrome (LP), and Slipstream V3 (concentrated liquidity)
+* 🏭 **Factory Pattern**: Deploy isolated private vault instances
+* 🛡️ **Security First**: Owner-only operations with comprehensive safety mechanisms
+* ⚡ **Gas Optimized**: Solady libraries for maximum efficiency
+* 🤖 **Keeper-Friendly**: Permissionless auto-deposit and harvest functions
+* 📊 **Smart Allocation**: Dynamic strategy selection via YieldAllocator
+* 🚀 **Extensible**: Designed for easy integration of additional protocols
 
 ***
 
@@ -63,17 +63,11 @@ Comprehensive test suite documentation, test logs, and verification procedures.
 
 ## 🎯 Use Cases
 
-### Private Treasury Management
+**Private Treasury Management**: Deploy isolated vaults for full control over treasury assets.
 
-Deploy your own private vault to manage treasury assets with full control and transparency.
+**Institutional Yield Farming**: Automate yield generation across multiple strategies while maintaining L1 custody.
 
-### Institutional Yield Farming
-
-Automate yield generation across multiple strategies while maintaining custody on L1.
-
-### DAO Treasury Operations
-
-Use Gnosis Safe multisig to manage cross-chain yield operations securely.
+**DAO Operations**: Integrate with Gnosis Safe multisig for secure, multi-signature yield management.
 
 ***
 
@@ -103,49 +97,27 @@ Use Gnosis Safe multisig to manage cross-chain yield operations securely.
 
 ***
 
-🔐 Security Features
+## 🔐 Security
 
-* ✅ **Owner-Only Operations**: All critical functions are owner-restricted
-* ✅ **Reentrancy Protection**: Solady ReentrancyGuard on all state-changing functions
-* ✅ **Circuit Breakers**: Emergency pause and withdrawal limits
-* ✅ **Slippage Protection**: Configurable slippage tolerance
-* ✅ **Rate Limiting**: Anti-spam mechanisms and operation cooldowns
-* ✅ **Access Control**: Comprehensive authorization checks
+Owner-only operations, reentrancy protection, circuit breakers, slippage controls, and rate limiting ensure secure, controlled access to all vault functions.
 
 ***
 
-## 📈 Supported Yield Strategies
+## 📈 Yield Strategies
 
-### Tydro (AAVE V3 Fork)
+**Tydro** (Lending): ~3-5% APY, low risk, overcollateralized lending protocol.
 
-* **Type**: Lending Protocol
-* **APY**: \~3-5% (varies by token)
-* **Risk**: Low (overcollateralized lending)
+**Velodrome** (LP): 20-50%+ APY, medium risk, liquidity provision with VELO rewards.
 
-### Velodrome
+**Slipstream** (V3): Concentrated liquidity positions with customizable ranges and fee tiers.
 
-* **Type**: DEX Liquidity Provision
-* **APY**: 20-50%+ (varies by pool)
-* **Risk**: Medium (impermanent loss, trading fees)
-
-### Curve Finance (Planned)
-
-* **Type**: Stablecoin DEX
-* **APY**: 5-15%+ (stablecoin pools)
-* **Risk**: Low-Medium (optimized for stablecoins)
-* **Status**: Priority integration in roadmap
+**Curve Finance** (Planned): Priority integration for stablecoin pools (5-15% APY) pending funding.
 
 ***
 
-## 🌐 Ecosystem Integration
+## 🌐 Ecosystem
 
-This system is designed for the **Ink/Kraken ecosystem** and integrates with:
-
-* **Ink L2**: Optimistic rollup infrastructure
-* **Across Protocol**: Cross-chain bridging
-* **Tydro**: AAVE V3 fork on Ink
-* **Velodrome**: DEX on Ink L2
-* **Gnosis Safe**: Multisig wallet support
+Built for **Ink L2** with integrations for Across Protocol (bridging), Tydro (lending), Velodrome (DEX), Slipstream (V3), and Gnosis Safe (multisig).
 
 ***
 
@@ -155,16 +127,20 @@ MIT License - see [LICENSE](LICENSE/) file for details.
 
 ***
 
-## 🗺️ Future Enhancements
+## 💰 Funding & Development Roadmap
 
-With additional funding, we plan to implement:
+**Current Status**: V1 deployed and operational on Ink L2 mainnet. V2 contracts complete with multi-strategy support.
 
-* 🤖 **Decentralized Keeper Network**: Permissionless keeper infrastructure for hands-free operation
-* 🔄 **Velodrome Automation Integration**: Leverage [Velodrome's automation scripts](https://github.com/velodrome-finance/automations/tree/main/scripts) for advanced LP management
-* 📊 **Curve Finance Integration**: Priority addition for stablecoin yield optimization
-* 📊 **Advanced Analytics**: Real-time dashboards and on-chain metrics
-* 🌐 **Multi-Bridge Support**: Additional bridge protocols for best-rate routing
-* 📱 **Web Application**: Comprehensive user interface for vault management
+**With Additional Funding**, we can deliver:
+
+* 🤖 **Decentralized Keeper Network**: Permissionless automation infrastructure for hands-free vault operation
+* 🔄 **Velodrome Automation Integration**: Advanced LP management leveraging proven automation patterns
+* 📊 **Curve Finance Integration**: Priority stablecoin yield optimization (5-15% APY)
+* 📊 **Analytics Dashboard**: Real-time monitoring and performance metrics
+* 🌐 **Multi-Bridge Support**: Best-rate routing across multiple bridge protocols
+* 📱 **Web Application**: User-friendly interface for vault management
+
+**Impact**: Transform from functional yield aggregator to comprehensive, autonomous yield management platform. See [Roadmap](ROADMAP.md) for detailed plans.
 
 ***
 

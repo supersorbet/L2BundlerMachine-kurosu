@@ -4,7 +4,7 @@
 
 This document describes the storage structures and state management in the L1-L2 Ink Yield Bundler contracts.
 
-***
+---
 
 ## L1Depositor Storage
 
@@ -24,19 +24,22 @@ uint64 public maxSlippageBps;                     // Max slippage (basis points)
 
 ### Storage Breakdown
 
-* **tokenMapping**: Maps L1 token addresses to their corresponding L2 token addresses
-  * Used to determine destination token when bridging
-  * Set via `setTokenMapping()` (owner-only)
-* **yieldBalance**: Tracks accumulated yield per token on L1
-  * Updated when yield is bridged back from L2
-  * Decremented when users withdraw yield
-* **l2Vault**: Address of the BundledYieldVaultV2 contract on Ink L2
-  * Used as recipient address when bridging tokens
-* **maxSlippageBps**: Maximum acceptable slippage in basis points (1 bps = 0.01%)
-  * Used to validate minimum amounts in bridge operations
-  * Configurable via owner functions
+- **tokenMapping**: Maps L1 token addresses to their corresponding L2 token addresses
+  - Used to determine destination token when bridging
+  - Set via `setTokenMapping()` (owner-only)
+  
+- **yieldBalance**: Tracks accumulated yield per token on L1
+  - Updated when yield is bridged back from L2
+  - Decremented when users withdraw yield
+  
+- **l2Vault**: Address of the BundledYieldVaultV2 contract on Ink L2
+  - Used as recipient address when bridging tokens
+  
+- **maxSlippageBps**: Maximum acceptable slippage in basis points (1 bps = 0.01%)
+  - Used to validate minimum amounts in bridge operations
+  - Configurable via owner functions
 
-***
+---
 
 ## L2Vault Storage
 
@@ -67,27 +70,28 @@ address public l1Recipient;                       // L1 depositor address
 ### Storage Breakdown
 
 **TokenStatus Fields**:
-
-* **depositedAmount**: Original principal amount deposited to strategies
-  * Set when tokens are first deposited
-  * Used as baseline for yield calculation
-* **currentBalance**: Current total balance in strategies
-  * Updated after deposits and withdrawals
-  * Includes both principal and accrued yield
-* **yieldAvailable**: Calculated yield ready to harvest
-  * Formula: `yieldAvailable = currentBalance - depositedAmount`
-  * Reset after harvesting
-* **lastUpdate**: Timestamp of last status update
-  * Used for rate limiting and tracking
-  * Updated on every state change
+- **depositedAmount**: Original principal amount deposited to strategies
+  - Set when tokens are first deposited
+  - Used as baseline for yield calculation
+  
+- **currentBalance**: Current total balance in strategies
+  - Updated after deposits and withdrawals
+  - Includes both principal and accrued yield
+  
+- **yieldAvailable**: Calculated yield ready to harvest
+  - Formula: `yieldAvailable = currentBalance - depositedAmount`
+  - Reset after harvesting
+  
+- **lastUpdate**: Timestamp of last status update
+  - Used for rate limiting and tracking
+  - Updated on every state change
 
 **Storage Packing**:
+- `uint128` fields: 16 bytes each (3 fields = 48 bytes)
+- `uint32` field: 4 bytes
+- **Total**: 52 bytes (fits efficiently in 2 storage slots)
 
-* `uint128` fields: 16 bytes each (3 fields = 48 bytes)
-* `uint32` field: 4 bytes
-* **Total**: 52 bytes (fits efficiently in 2 storage slots)
-
-***
+---
 
 ## State Management
 
@@ -96,21 +100,24 @@ address public l1Recipient;                       // L1 depositor address
 The vault maintains comprehensive state for each token:
 
 1. **Deposit**: When tokens arrive from L1
-   * `depositedAmount` = amount received
-   * `currentBalance` = amount received
-   * `yieldAvailable` = 0
-   * `lastUpdate` = block.timestamp
+   - `depositedAmount` = amount received
+   - `currentBalance` = amount received
+   - `yieldAvailable` = 0
+   - `lastUpdate` = block.timestamp
+
 2. **Strategy Deployment**: When tokens are deposited to strategies
-   * `depositedAmount` = unchanged (original principal)
-   * `currentBalance` = updated with strategy balance
-   * `yieldAvailable` = recalculated
+   - `depositedAmount` = unchanged (original principal)
+   - `currentBalance` = updated with strategy balance
+   - `yieldAvailable` = recalculated
+
 3. **Yield Accrual**: Over time, strategies generate yield
-   * `currentBalance` increases
-   * `yieldAvailable` = `currentBalance - depositedAmount`
+   - `currentBalance` increases
+   - `yieldAvailable` = `currentBalance - depositedAmount`
+
 4. **Harvest**: When yield is harvested
-   * `yieldAvailable` = 0 (harvested)
-   * `depositedAmount` = updated if compounding
-   * `currentBalance` = updated after withdrawal
+   - `yieldAvailable` = 0 (harvested)
+   - `depositedAmount` = updated if compounding
+   - `currentBalance` = updated after withdrawal
 
 ### Yield Calculation
 
@@ -119,11 +126,10 @@ yieldAvailable = currentBalance - depositedAmount
 ```
 
 Yield is harvested periodically and split between:
+- **Compound**: Re-deposited to increase `depositedAmount`
+- **Bridge**: Sent back to L1 and tracked in `yieldBalance`
 
-* **Compound**: Re-deposited to increase `depositedAmount`
-* **Bridge**: Sent back to L1 and tracked in `yieldBalance`
-
-***
+---
 
 ## Gas Optimization
 
@@ -131,21 +137,22 @@ Yield is harvested periodically and split between:
 
 The `TokenStatus` struct is optimized for storage efficiency:
 
-* Uses `uint128` for amounts (sufficient for most tokens)
-* Uses `uint32` for timestamps (covers \~136 years)
-* Packs multiple values into minimal storage slots
-* Reduces SLOAD/SSTORE operations
+- Uses `uint128` for amounts (sufficient for most tokens)
+- Uses `uint32` for timestamps (covers ~136 years)
+- Packs multiple values into minimal storage slots
+- Reduces SLOAD/SSTORE operations
 
 ### Storage Access Patterns
 
-* Frequently accessed data (tokenStatus) uses single mapping lookup
-* Infrequently changed data (config) uses separate storage variables
-* Event emissions used instead of storage for historical data
+- Frequently accessed data (tokenStatus) uses single mapping lookup
+- Infrequently changed data (config) uses separate storage variables
+- Event emissions used instead of storage for historical data
 
-***
+---
 
 ## Related Documentation
 
-* [Contract Responsibilities](contracts.md) - How storage is used in contract functions
-* [Gas Optimization](broken-reference) - Storage optimization techniques
-* [User Flows](user-flows.md) - State transitions in user flows
+- [Contract Responsibilities](./contracts.md) - How storage is used in contract functions
+- [Gas Optimization](./gas-optimization.md) - Storage optimization techniques
+- [User Flows](./user-flows.md) - State transitions in user flows
+

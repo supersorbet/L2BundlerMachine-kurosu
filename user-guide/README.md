@@ -1,6 +1,6 @@
 # User Guide
 
-Complete guide for using the L1-L2 Cross-Chain Yield Aggregator system.
+Complete guide for using the Ink Yield Bundler system.
 
 ***
 

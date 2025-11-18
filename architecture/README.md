@@ -1,10 +1,12 @@
-# Architecture Overview
+# System Architecture
 
 ## Overview
 
-**Current Status**: V1 is deployed and operational on Ink L2 mainnet at [`0xB4BF6a67c329A2Fd27f224F11aB24e6963B89fb7`](https://explorer.inkonchain.com/address/0xB4BF6a67c329A2Fd27f224F11aB24e6963B89fb7?tab=txs), focusing on Tydro lending operations. V2 expands capabilities with multi-strategy support (Tydro + Velodrome) and includes zap utility peripheral contracts for seamless token swaps, one-click LP operations, and VELO token earning.
+The Ink Yield Bundler architecture enables seamless cross-chain yield farming through a modular contract system designed for security, gas efficiency, and extensibility.
 
-***
+**Current Status**: V1 deployed on Ink L2 mainnet at [`0xB4BF6a67c329A2Fd27f224F11aB24e6963B89fb7`](https://explorer.inkonchain.com/address/0xB4BF6a67c329A2Fd27f224F11aB24e6963B89fb7?tab=txs) with Tydro lending. V2 adds multi-strategy support (Tydro + Velodrome + Slipstream) with helper contracts for zap operations and LP management.
+
+---
 
 ## 🏗️ High-Level Architecture
 
@@ -53,26 +55,25 @@
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-***
+---
 
-## 📚 Architecture Documentation
+## 📚 Documentation Sections
 
-This architecture documentation is organized into focused sections:
+- **[Contract Mechanics](./contracts.md)** - Core contracts and helper contracts overview
+- **[User Flows](./user-flows.md)** - Deposit and harvest flow diagrams
+- **[Security Architecture](./security.md)** - Access control and safety mechanisms
+- **[Storage Layout](./storage.md)** - Data structures and state management
+- **[Bridge Architecture](./bridge.md)** - Across Protocol integration
+- **[Yield Strategies](./yield-strategies.md)** - Strategy selection and allocation
+- **[Factory Pattern](./factory.md)** - Vault deployment system
+- **[Gas Optimization](./gas-optimization.md)** - Efficiency techniques
+- **[Version History](./versions.md)** - V1 vs V2 comparison
 
-* [**Contract Responsibilities**](contracts.md) - Detailed breakdown of L1Depositor and L2Vault contracts, their responsibilities, and key functions
-* [**User Flows**](user-flows.md) - Complete deposit and harvest flow diagrams with sequence charts
-* [**Security Architecture**](broken-reference) - Access control, reentrancy protection, and circuit breakers
-* [**Storage Layout**](storage.md) - Storage structures, state management, and yield calculation
-* [**Bridge Architecture**](broken-reference) - Across Protocol integration and bridge flow details
-* [**Yield Strategies**](yield-strategies/) - Strategy selection, smart allocation, and compounding
-* [**Factory Pattern**](factory.md) - Vault deployment and factory contract details
-* [**Version History**](versions.md) - V1 (production) vs V2 (current) comparison
-
-***
+---
 
 ## 🚀 Dive Deeper?
 
-* [Core Contracts Documentation](../contracts/)
-* [Factory & Deployment Guide](../factory/)
-* [Yield Strategies Deep Dive](yield-strategies/strategies.md)
-* [Bridge Integration Details](../bridge/)
+- [Core Contracts Documentation](../contracts/README.md)
+- [Factory & Deployment Guide](../factory/README.md)
+- [Yield Strategies Deep Dive](../strategies/README.md)
+- [Bridge Integration Details](../bridge/README.md)

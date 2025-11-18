@@ -1,20 +1,22 @@
-# Future Roadmap & Enhancement Opportunities
+# Development Roadmap & Funding Priorities
 
-This document outlines potential improvements and enhancements that could be implemented with additional funding and resources. These features would significantly enhance the system's automation, efficiency, and user experience.
+This roadmap outlines enhancements that require additional funding and resources to transform the Ink Yield Bundler into a fully autonomous, production-grade yield management platform.
 
-## 🎯 Enhancements
+## 🎯 Priority Enhancements
 
-### Immediate Additions
+### Curve Finance Integration (High Priority)
 
-**Curve.fi Integration** - High priority for stablecoin yield optimization
+**Why**: Stablecoin yield optimization with proven track record and high TVL.
 
-Curve Finance is a leading DEX optimized for stablecoin and pegged asset trading. Integration would provide:
+**Benefits**:
+- Optimal yields for USDT/USDC/DAI pools (5-15% APY)
+- CRV governance token rewards
+- Battle-tested protocol with billions in TVL
+- Lower slippage than standard DEXs
 
-- **Stablecoin Pools**: Optimal yields for USDT/USDC/DAI pools
-- **CRV Rewards**: Additional yield from governance token
-- **Proven Track Record**: Battle-tested protocol with high TVL
+**Funding Required**: Development resources for integration, testing, and deployment.
 
-See [Yield Strategies](#-smart-strategy-enhancements) section for details.
+See [Strategy Enhancements](#-smart-strategy-enhancements) for implementation details.
 
 ---
 
@@ -22,7 +24,7 @@ See [Yield Strategies](#-smart-strategy-enhancements) section for details.
 
 ### Current State
 
-The system currently supports keeper-friendly functions but requires manual keeper bot deployment. With additional funding, we can build a **decentralized keeper network** similar to Gelato or Chainlink Automation, or utilize deployed tools on Ink.
+The system includes keeper-friendly functions (`autoHarvestAndBridge`, `depositAvailable`) but requires manual keeper bot deployment. **With funding**, we can build a decentralized keeper network or integrate with existing automation infrastructure on Ink.
 
 ### Enhancements
 
@@ -50,10 +52,12 @@ contract KeeperRegistry {
 ```
 
 **Benefits**:
-- Hands-free operation for users, gas for operations is extremely low and can be funded by small harvest fees
-- No single point of failure
-- Competitive fee structure
-- Community-driven maintenance
+- Hands-free operation—users set it and forget it
+- Low operational costs—gas can be funded by small harvest fees
+- No single point of failure—redundant keeper network
+- Community-driven—permissionless participation
+
+**Funding Impact**: Enables fully autonomous operation, dramatically improving user experience and reducing operational overhead.
 
 #### 2. **Velodrome Automation Integration**
 
@@ -533,13 +537,29 @@ Potential token for:
 
 ---
 
-## 📝 Conclusion
+## 💰 Funding Impact Summary
 
-With additional funding, we can transform this system from a functional yield aggregator into a **comprehensive, hands-free yield management platform**. The integration with Velodrome's automation patterns, combined with a decentralized keeper network, would create a truly autonomous system that requires minimal user intervention while maximizing yield and efficiency.
+**Current State**: Functional yield aggregator with V1 deployed and V2 contracts complete.
 
-**The future is automated. Let's build it together.** 🚀
+**With Funding**: Transform into a comprehensive, autonomous yield management platform with:
+- Fully automated operations (decentralized keepers)
+- Expanded strategy options (Curve Finance + more)
+- Enhanced user experience (web app, analytics)
+- Ecosystem growth (more protocols, better integration)
+
+**Resource Needs**:
+- Development resources for keeper infrastructure
+- Integration work for Curve Finance and additional protocols
+- Frontend development for web application
+- Testing and security audits for new features
+
+**Timeline**: 6-12 months for full implementation, depending on funding availability.
 
 ---
 
-**Next Steps**: Review this roadmap and prioritize features based on grant funding and community needs.
+## 📝 Conclusion
+
+This roadmap demonstrates our vision for transforming the Ink Yield Bundler into a production-grade, autonomous yield management platform. With the right resources, we can deliver significant value to the Ink L2 ecosystem while maintaining our commitment to security, efficiency, and user control.
+
+**The future is automated. Let's build it together.** 🚀
 
