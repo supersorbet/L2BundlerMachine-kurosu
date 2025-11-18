@@ -147,7 +147,9 @@ vault.setDefaultSlippageBps(200);  // 2% default slippage
 ### Chain IDs
 
 * **Ethereum Mainnet**: `1`
-* **Ink L2**: Check Ink documentation for chain ID
+* **Ink L2**: `57073`
+
+
 
 ***
 
@@ -260,16 +262,6 @@ Ink L2 does not support native OP Stack bridge:
 1. Increase slippage tolerance
 2. Bridge during lower congestion
 3. Check token liquidity on Across
-
-### Wrong Token Received
-
-**Symptoms**: Received different token than expected
-
-**Solutions**:
-
-1. Verify token mappings
-2. Check bridge parameters
-3. Verify recipient address
 
 ***
 

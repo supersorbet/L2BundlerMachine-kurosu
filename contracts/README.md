@@ -1,9 +1,5 @@
 # Core Contracts
 
-This section provides detailed documentation for all current contract versions in the system.
-
-***
-
 ## 📋 Contract Index
 
 1. [L1DepositorV2\_](./#l1depositorv2_production) - Ethereum L1 contract
