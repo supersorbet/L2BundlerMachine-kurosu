@@ -4,7 +4,7 @@
 
 This document describes the complete user flows for deposits and yield harvesting in the L1-L2 Ink Yield Bundler system.
 
----
+***
 
 ## 1. Deposit Flow (L1 → L2)
 
@@ -39,7 +39,7 @@ sequenceDiagram
 7. **Strategy Deployment**: Tokens are deployed to Tydro (or Velodrome) based on allocation strategy
 8. **Confirmation**: Strategy returns receipt tokens (e.g., aTokens from Tydro)
 
----
+***
 
 ## 2. Yield Harvest Flow (L2 → L1)
 
@@ -69,35 +69,36 @@ sequenceDiagram
 2. **Yield Withdrawal**: L2Vault withdraws accumulated yield from Tydro (or other strategies)
 3. **Yield Calculation**: Contract calculates available yield: `currentBalance - depositedAmount`
 4. **Split Strategy**: Yield is split based on `compoundPercent`:
-   - **Compound Portion**: Re-deposited to strategies to increase principal
-   - **Bridge Portion**: Prepared for bridging back to L1
+   * **Compound Portion**: Re-deposited to strategies to increase principal
+   * **Bridge Portion**: Prepared for bridging back to L1
 5. **Re-deposit**: Compound portion is re-deposited to yield strategies
 6. **Bridge Initiation**: Bridge portion is sent via Across Protocol's SpokePool to L1
 7. **Yield Arrives**: L1Depositor receives bridged yield tokens
 8. **Balance Update**: L1Depositor updates `yieldBalance` mapping for the token
 9. **User Withdrawal**: Users can later call `withdrawYield()` to claim their yield
 
----
+***
 
 ## Flow Characteristics
 
 ### Deposit Flow
-- **Initiation**: Owner-only on L1
-- **Automation**: Auto-deposits to strategies on L2
-- **Gas Efficiency**: Single transaction initiates entire flow
-- **Slippage Protection**: Configurable minimum amounts
+
+* **Initiation**: Owner-only on L1
+* **Automation**: Auto-deposits to strategies on L2
+* **Gas Efficiency**: Single transaction initiates entire flow
+* **Slippage Protection**: Configurable minimum amounts
 
 ### Harvest Flow
-- **Flexible Compounding**: Configurable compound percentage per harvest
-- **Split Strategy**: Simultaneous compounding and bridging
-- **Keeper-Friendly**: Can be called by anyone (owner-only recommended)
-- **Yield Tracking**: Automatic yield balance updates on L1
 
----
+* **Flexible Compounding**: Configurable compound percentage per harvest
+* **Split Strategy**: Simultaneous compounding and bridging
+* **Keeper-Friendly**: Can be called by anyone (owner-only recommended)
+* **Yield Tracking**: Automatic yield balance updates on L1
+
+***
 
 ## Related Documentation
 
-- [Contract Responsibilities](./contracts.md) - Functions used in these flows
-- [Bridge Architecture](./bridge.md) - Detailed bridge mechanics
-- [Yield Strategies](./yield-strategies.md) - Strategy allocation and compounding
-
+* [Contract Responsibilities](contracts.md) - Functions used in these flows
+* [Bridge Architecture](broken-reference) - Detailed bridge mechanics
+* [Yield Strategies](yield-strategies/) - Strategy allocation and compounding

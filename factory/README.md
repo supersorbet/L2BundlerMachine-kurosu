@@ -1,20 +1,20 @@
-# Factory & Private Vault Deployment
+# Factory & Deployment
 
 ## Overview
 
 The `YieldVaultFactory` enables users to deploy their own **private, isolated vault instances**. Each vault is fully owned by the deployer and operates independently, providing complete control and security.
 
----
+***
 
 ## 🏭 Factory Pattern Benefits
 
 ### Why Use the Factory?
 
-- ✅ **Isolation**: Each vault is completely separate
-- ✅ **Ownership**: Full control over your vault
-- ✅ **Privacy**: No shared state with other users
-- ✅ **Customization**: Configure per-vault settings
-- ✅ **Security**: Isolated risk - one vault's issues don't affect others
+* ✅ **Isolation**: Each vault is completely separate
+* ✅ **Ownership**: Full control over your vault
+* ✅ **Privacy**: No shared state with other users
+* ✅ **Customization**: Configure per-vault settings
+* ✅ **Security**: Isolated risk - one vault's issues don't affect others
 
 ### Use Cases
 
@@ -23,7 +23,7 @@ The `YieldVaultFactory` enables users to deploy their own **private, isolated va
 3. **DAO Operations**: Deploy vaults for specific DAO initiatives
 4. **Testing**: Deploy test vaults without affecting production
 
----
+***
 
 ## 📋 Factory Contract
 
@@ -44,11 +44,7 @@ struct VaultConfig {
 
 All deployed vaults use the same infrastructure addresses, ensuring consistency and security.
 
----
-
-## 🚀 Deploying Your Vault
-
-### Step 1: Prepare L1 Depositor
+***
 
 First, ensure you have an L1Depositor contract deployed on Ethereum Mainnet. This will receive bridged yield from your vault.
 
@@ -69,6 +65,7 @@ address myVault = factory.deployVault(address(l1Depositor));
 ```
 
 **What happens**:
+
 1. Factory creates new `BundledYieldVaultV2_PRODUCTION` instance
 2. Ownership is transferred to you (msg.sender)
 3. Vault is configured with factory's default settings
@@ -100,7 +97,7 @@ Send ETH to your vault for gas:
 require(success, "Funding failed");
 ```
 
----
+***
 
 ## 🔐 Ownership & Access Control
 
@@ -140,13 +137,14 @@ myVault.transferOwnership(gnosisSafeAddress);
 4. All operations now require multisig approval
 
 **Example Safe Transaction**:
+
 ```solidity
 // In Gnosis Safe interface
 // Transaction: depositAvailable(usdt0, true)
 // Requires: 2 of 3 signatures
 ```
 
----
+***
 
 ## 📊 Vault Management
 
@@ -176,7 +174,7 @@ Check your vault's status:
 uint256 availableYield = myVault.getYieldAvailable(usdt0);
 ```
 
----
+***
 
 ## 🎯 Complete Deployment Example
 
@@ -208,7 +206,7 @@ payable(myVault).transfer(0.1 ether);
 BundledYieldVaultV2_PRODUCTION(myVault).transferOwnership(safeAddress);
 ```
 
----
+***
 
 ## 🔧 Factory Configuration
 
@@ -216,10 +214,10 @@ BundledYieldVaultV2_PRODUCTION(myVault).transferOwnership(safeAddress);
 
 The factory uses standardized settings:
 
-- **Tydro Pool**: Production Tydro pool address
-- **L2 Encoder**: Standard encoder for compressed calldata
-- **Across SpokePool**: Production SpokePool address
-- **Velodrome Router**: Production router address
+* **Tydro Pool**: Production Tydro pool address
+* **L2 Encoder**: Standard encoder for compressed calldata
+* **Across SpokePool**: Production SpokePool address
+* **Velodrome Router**: Production router address
 
 ### Updating Factory Settings
 
@@ -230,23 +228,24 @@ Factory owner can update default keeper fee:
 factory.setDefaultKeeperFee(10);  // 0.1%
 ```
 
----
+***
 
 ## 🛡️ Security Considerations
 
 ### Isolated Vaults
 
 Each vault is completely isolated:
-- ✅ Separate storage
-- ✅ Separate ownership
-- ✅ No shared state
-- ✅ Independent risk
+
+* ✅ Separate storage
+* ✅ Separate ownership
+* ✅ No shared state
+* ✅ Independent risk
 
 ### Access Control
 
-- **Owner-only operations**: All critical functions require ownership
-- **No shared permissions**: Each vault owner has full control
-- **Transferable ownership**: Can transfer to multisig for added security
+* **Owner-only operations**: All critical functions require ownership
+* **No shared permissions**: Each vault owner has full control
+* **Transferable ownership**: Can transfer to multisig for added security
 
 ### Best Practices
 
@@ -255,37 +254,40 @@ Each vault is completely isolated:
 3. **Regular Harvests**: Set up keeper for automated harvesting
 4. **Token Mappings**: Verify mappings before deposits
 
----
+***
 
 ## 📈 Vault Lifecycle
 
 ### 1. Deployment
-- Factory creates new vault instance
-- Ownership transferred to deployer
-- Vault configured with defaults
+
+* Factory creates new vault instance
+* Ownership transferred to deployer
+* Vault configured with defaults
 
 ### 2. Configuration
-- Set token mappings
-- Configure L1 recipient
-- Set yield parameters
+
+* Set token mappings
+* Configure L1 recipient
+* Set yield parameters
 
 ### 3. Operation
-- Deposit tokens
-- Auto-deposit to strategies
-- Harvest yield
-- Bridge yield to L1
+
+* Deposit tokens
+* Auto-deposit to strategies
+* Harvest yield
+* Bridge yield to L1
 
 ### 4. Management
-- Monitor vault status
-- Adjust settings as needed
-- Transfer ownership if required
 
----
+* Monitor vault status
+* Adjust settings as needed
+* Transfer ownership if required
+
+***
 
 ## 🔗 Related Documentation
 
-- [Core Contracts](./../contracts/README.md)
-- [User Guide](./../user-guide/README.md)
-- [Deployment Guide](./../deployment/README.md)
-- [Architecture Overview](./../architecture/README.md)
-
+* [Core Contracts](../contracts/)
+* [User Guide](../user-guide/)
+* [Deployment Guide](broken-reference)
+* [Architecture Overview](../architecture/)

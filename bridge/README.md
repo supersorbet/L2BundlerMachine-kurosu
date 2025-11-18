@@ -2,9 +2,9 @@
 
 ## Overview
 
-The system uses **Across Protocol** for cross-chain bridging between Ethereum L1 and Ink L2. Across provides fast, secure, and cost-effective bridging with ~2-3 second finality.
+The system uses **Across Protocol** for cross-chain bridging between Ethereum L1 and Ink L2. Across provides fast, secure, and cost-effective bridging with \~2-3 second finality.
 
----
+***
 
 ## 🌉 Across Protocol
 
@@ -12,10 +12,10 @@ The system uses **Across Protocol** for cross-chain bridging between Ethereum L1
 
 Across Protocol is a cross-chain bridge that uses a **unified liquidity pool** model. It provides:
 
-- ✅ **Fast Finality**: ~2-3 seconds
-- ✅ **Low Fees**: Competitive bridge fees
-- ✅ **High Security**: Audited and battle-tested
-- ✅ **Intent-Based**: Relayer fills deposits
+* ✅ **Fast Finality**: \~2-3 seconds
+* ✅ **Low Fees**: Competitive bridge fees
+* ✅ **High Security**: Audited and battle-tested
+* ✅ **Intent-Based**: Relayer fills deposits
 
 ### How It Works
 
@@ -32,7 +32,7 @@ Across Protocol is a cross-chain bridge that uses a **unified liquidity pool** m
                               ▼
 ```
 
----
+***
 
 ## 🔄 Bridge Flow
 
@@ -59,9 +59,9 @@ IHubPool(HUB_POOL).deposit(
 
 Across relayers monitor deposits and fill them on the destination chain:
 
-- Relayers provide liquidity
-- They earn fees for filling
-- Fills happen within seconds
+* Relayers provide liquidity
+* They earn fees for filling
+* Fills happen within seconds
 
 #### Step 3: Tokens Arrive
 
@@ -91,9 +91,9 @@ ISpokePool(ACROSS_SPOKE_POOL).deposit(
 
 Relayers fill the deposit on L1:
 
-- They provide liquidity from HubPool
-- They earn fees
-- Fills happen within seconds
+* They provide liquidity from HubPool
+* They earn fees
+* Fills happen within seconds
 
 #### Step 3: Yield Arrives
 
@@ -104,7 +104,7 @@ Yield arrives at L1Depositor:
 yieldBalance[token] += amount;
 ```
 
----
+***
 
 ## 🔧 Bridge Configuration
 
@@ -146,10 +146,10 @@ vault.setDefaultSlippageBps(200);  // 2% default slippage
 
 ### Chain IDs
 
-- **Ethereum Mainnet**: `1`
-- **Ink L2**: Check Ink documentation for chain ID
+* **Ethereum Mainnet**: `1`
+* **Ink L2**: Check Ink documentation for chain ID
 
----
+***
 
 ## 💰 Bridge Fees
 
@@ -157,33 +157,34 @@ vault.setDefaultSlippageBps(200);  // 2% default slippage
 
 Across charges fees for bridging:
 
-- **Deposit Fee**: Small fee on deposit
-- **Relayer Fee**: Fee paid to relayers
-- **Total**: Typically ~0.1-0.2% of amount
+* **Deposit Fee**: Small fee on deposit
+* **Relayer Fee**: Fee paid to relayers
+* **Total**: Typically \~0.1-0.2% of amount
 
 ### Fee Calculation
 
 Fees are calculated by Across based on:
-- Token liquidity
-- Destination chain
-- Current market conditions
+
+* Token liquidity
+* Destination chain
+* Current market conditions
 
 ### Minimizing Fees
 
-- **Batch Operations**: Bridge larger amounts
-- **Timing**: Bridge during low congestion
-- **Token Selection**: Some tokens have lower fees
+* **Batch Operations**: Bridge larger amounts
+* **Timing**: Bridge during low congestion
+* **Token Selection**: Some tokens have lower fees
 
----
+***
 
 ## 🛡️ Security Considerations
 
 ### Bridge Security
 
-- ✅ **Audited Protocol**: Across is audited
-- ✅ **Unified Liquidity**: Single pool model
-- ✅ **Relayer Network**: Decentralized relayers
-- ✅ **Slippage Protection**: Configurable limits
+* ✅ **Audited Protocol**: Across is audited
+* ✅ **Unified Liquidity**: Single pool model
+* ✅ **Relayer Network**: Decentralized relayers
+* ✅ **Slippage Protection**: Configurable limits
 
 ### Best Practices
 
@@ -192,7 +193,7 @@ Fees are calculated by Across based on:
 3. **Monitor Transactions**: Track bridge status
 4. **Test First**: Test on testnet before mainnet
 
----
+***
 
 ## 📊 Bridge Status Monitoring
 
@@ -214,7 +215,7 @@ uint256 balance = IERC20(usdt0).balanceOf(vault);
 uint256 yield = l1Depositor.yieldBalance(usdt);
 ```
 
----
+***
 
 ## 🔄 Alternative Bridge Options
 
@@ -231,10 +232,11 @@ The system also supports Relay Protocol integration:
 ### Native Bridge (Not Available)
 
 Ink L2 does not support native OP Stack bridge:
-- Uses Relay Protocol instead
-- Across is the primary bridge solution
 
----
+* Uses Relay Protocol instead
+* Across is the primary bridge solution
+
+***
 
 ## 🚨 Troubleshooting
 
@@ -243,6 +245,7 @@ Ink L2 does not support native OP Stack bridge:
 **Symptoms**: Tokens don't arrive on destination chain
 
 **Solutions**:
+
 1. Check transaction on Across explorer
 2. Verify token mappings are correct
 3. Check if relayer filled the deposit
@@ -253,6 +256,7 @@ Ink L2 does not support native OP Stack bridge:
 **Symptoms**: Received amount is less than expected
 
 **Solutions**:
+
 1. Increase slippage tolerance
 2. Bridge during lower congestion
 3. Check token liquidity on Across
@@ -262,24 +266,24 @@ Ink L2 does not support native OP Stack bridge:
 **Symptoms**: Received different token than expected
 
 **Solutions**:
+
 1. Verify token mappings
 2. Check bridge parameters
 3. Verify recipient address
 
----
+***
 
 ## 📚 Additional Resources
 
-- [Across Protocol Docs](https://docs.across.to/)
-- [Across Explorer](https://across.to/)
-- [Ink L2 Documentation](https://inkonchain.com/docs)
+* [Across Protocol Docs](https://docs.across.to/)
+* [Across Explorer](https://across.to/)
+* [Ink L2 Documentation](https://inkonchain.com/docs)
 
----
+***
 
 ## 🔗 Related Documentation
 
-- [Architecture Overview](./../architecture/README.md)
-- [Core Contracts](./../contracts/README.md)
-- [User Guide](./../user-guide/README.md)
-- [Deployment Guide](./../deployment/README.md)
-
+* [Architecture Overview](../architecture/)
+* [Core Contracts](../contracts/)
+* [User Guide](../user-guide/)
+* [Deployment Guide](broken-reference)

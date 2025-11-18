@@ -2,15 +2,15 @@
 
 The system supports multiple yield strategies, allowing users to optimize returns based on risk tolerance and market conditions.
 
----
+***
 
 ## 📊 Supported Strategies
 
 ### 1. Tydro (Lending)
 
-**Type**: Money Market / Lending Protocol  
-**Risk Level**: Low  
-**APY Range**: 3-5% (varies by token)  
+**Type**: Money Market / Lending Protocol\
+**Risk Level**: Low\
+**APY Range**: 3-5% (varies by token)\
 **Strategy ID**: 1
 
 #### Overview
@@ -34,9 +34,9 @@ IL2Pool(TYDRO_POOL).supply(supplyArgs);
 
 #### Yield Generation
 
-- **Interest Rate**: Variable rate based on utilization
-- **Compounding**: Automatic via aToken appreciation
-- **Liquidity**: High (can withdraw anytime)
+* **Interest Rate**: Variable rate based on utilization
+* **Compounding**: Automatic via aToken appreciation
+* **Liquidity**: High (can withdraw anytime)
 
 #### Code Example
 
@@ -53,23 +53,23 @@ vault.harvestAndBridge(usdt0, 50);
 
 #### Advantages
 
-- ✅ Low risk (overcollateralized)
-- ✅ High liquidity
-- ✅ Stable returns
-- ✅ No impermanent loss
+* ✅ Low risk (overcollateralized)
+* ✅ High liquidity
+* ✅ Stable returns
+* ✅ No impermanent loss
 
 #### Considerations
 
-- ⚠️ Lower APY compared to LP strategies
-- ⚠️ Interest rates vary with market conditions
+* ⚠️ Lower APY compared to LP strategies
+* ⚠️ Interest rates vary with market conditions
 
----
+***
 
 ### 2. Velodrome (Liquidity Provision)
 
-**Type**: DEX Liquidity Pool  
-**Risk Level**: Medium  
-**APY Range**: 20-50%+ (varies by pool)  
+**Type**: DEX Liquidity Pool\
+**Risk Level**: Medium\
+**APY Range**: 20-50%+ (varies by pool)\
 **Strategy ID**: 2
 
 #### Overview
@@ -101,9 +101,9 @@ vault.deployToVelodrome(LPParams({
 
 #### Yield Generation
 
-- **Trading Fees**: Earn fees from swaps (typically 0.01% or 0.05%)
-- **VELO Emissions**: Additional rewards for staking in gauge
-- **Volume-Based**: Higher volume = higher yield
+* **Trading Fees**: Earn fees from swaps (typically 0.01% or 0.05%)
+* **VELO Emissions**: Additional rewards for staking in gauge
+* **Volume-Based**: Higher volume = higher yield
 
 #### Code Example
 
@@ -121,17 +121,17 @@ vault.deployToVelodrome(LPParams({
 
 #### Advantages
 
-- ✅ Higher APY potential
-- ✅ VELO token rewards
-- ✅ Supports both stable and volatile pairs
+* ✅ Higher APY potential
+* ✅ VELO token rewards
+* ✅ Supports both stable and volatile pairs
 
 #### Considerations
 
-- ⚠️ Impermanent loss risk
-- ⚠️ Higher complexity
-- ⚠️ Requires two tokens for LP
+* ⚠️ Impermanent loss risk
+* ⚠️ Higher complexity
+* ⚠️ Requires two tokens for LP
 
----
+***
 
 ## 🧠 Smart Allocation
 
@@ -168,22 +168,22 @@ allocator.rebalance(usdt0, 1, 2, amount);
 // Move from Tydro (1) to Velodrome (2)
 ```
 
----
+***
 
 ## 📈 Strategy Comparison
 
-| Feature | Tydro | Velodrome | Curve Finance (Planned) |
-|---------|-------|-----------|------------------------|
-| **APY** | 3-5% | 20-50%+ | 5-15%+ |
-| **Risk** | Low | Medium | Low-Medium |
-| **Liquidity** | High | Medium | Very High |
-| **Impermanent Loss** | None | Possible | Minimal (stablecoins) |
-| **Complexity** | Low | Medium | Low |
-| **Token Requirements** | 1 | 2 | 2-4 (stablecoins) |
-| **Compounding** | Automatic | Manual | Manual |
-| **Status** | ✅ Live | ✅ Live | 🚧 Priority Roadmap |
+| Feature                | Tydro     | Velodrome | Curve Finance (Planned) |
+| ---------------------- | --------- | --------- | ----------------------- |
+| **APY**                | 3-5%      | 20-50%+   | 5-15%+                  |
+| **Risk**               | Low       | Medium    | Low-Medium              |
+| **Liquidity**          | High      | Medium    | Very High               |
+| **Impermanent Loss**   | None      | Possible  | Minimal (stablecoins)   |
+| **Complexity**         | Low       | Medium    | Low                     |
+| **Token Requirements** | 1         | 2         | 2-4 (stablecoins)       |
+| **Compounding**        | Automatic | Manual    | Manual                  |
+| **Status**             | ✅ Live    | ✅ Live    | 🚧 Priority Roadmap     |
 
----
+***
 
 ## 💡 Best Practices
 
@@ -228,7 +228,7 @@ uint256 tydroYield = vault.getYieldAvailable(usdt0);
 uint256 veloFees = veloHelper.getClaimableFees(pair);
 ```
 
----
+***
 
 ## 🔧 Strategy Configuration
 
@@ -261,7 +261,7 @@ allocator.setMaxAllocation(2, 3000);  // Max 30% to Velodrome
 allocator.setRebalanceThreshold(500);  // 5% APY difference
 ```
 
----
+***
 
 ## 📊 Yield Calculation
 
@@ -281,7 +281,7 @@ uint256 veloRewards = gauge.claimableRewards(vault);
 uint256 totalYield = fees + veloRewards;
 ```
 
----
+***
 
 ## 🚀 Future: Velodrome Automation Integration
 
@@ -291,17 +291,19 @@ With additional resources, we plan to integrate advanced Velodrome automation pa
 
 #### Automated LP Management
 
-**Current State**: Manual LP position management  
+**Current State**: Manual LP position management\
 **Future State**: Fully automated LP optimization
 
 **Planned Features**:
-- ✅ **Auto-Compounding**: Automatically compound trading fees back into LP
-- ✅ **VELO Reward Harvesting**: Auto-harvest and stake VELO rewards
-- ✅ **Position Rebalancing**: Auto-rebalance LP positions to maintain ratios
-- ✅ **Impermanent Loss Monitoring**: Alert and mitigate IL when detected
-- ✅ **Fee Optimization**: Auto-select optimal fee tier (0.01% vs 0.05%)
+
+* ✅ **Auto-Compounding**: Automatically compound trading fees back into LP
+* ✅ **VELO Reward Harvesting**: Auto-harvest and stake VELO rewards
+* ✅ **Position Rebalancing**: Auto-rebalance LP positions to maintain ratios
+* ✅ **Impermanent Loss Monitoring**: Alert and mitigate IL when detected
+* ✅ **Fee Optimization**: Auto-select optimal fee tier (0.01% vs 0.05%)
 
 **Example Implementation**:
+
 ```solidity
 // Future: Automated LP management
 function autoManageVelodromeLP(address tokenA, address tokenB) external {
@@ -329,25 +331,27 @@ function autoManageVelodromeLP(address tokenA, address tokenB) external {
 
 #### Gauge Staking Automation
 
-**Current State**: Manual gauge staking  
+**Current State**: Manual gauge staking\
 **Future State**: Automatic gauge management
 
 **Planned Features**:
-- Auto-stake LP tokens in gauges
-- Auto-claim VELO rewards
-- Auto-compound VELO rewards
-- Optimal gauge selection
+
+* Auto-stake LP tokens in gauges
+* Auto-claim VELO rewards
+* Auto-compound VELO rewards
+* Optimal gauge selection
 
 #### Multi-Pool Optimization
 
-**Current State**: Single pool deployment  
+**Current State**: Single pool deployment\
 **Future State**: Dynamic pool selection
 
 **Planned Features**:
-- Monitor multiple pools for same pair
-- Auto-select pool with highest APY
-- Auto-migrate between pools when beneficial
-- Volume-based pool selection
+
+* Monitor multiple pools for same pair
+* Auto-select pool with highest APY
+* Auto-migrate between pools when beneficial
+* Volume-based pool selection
 
 ### Benefits of Automation
 
@@ -361,19 +365,18 @@ function autoManageVelodromeLP(address tokenA, address tokenB) external {
 
 These automation features will be powered by a decentralized keeper network:
 
-- **Permissionless**: Anyone can run a keeper
-- **Incentivized**: Keepers earn fees for operations
-- **Redundant**: Multiple keepers ensure uptime
-- **Transparent**: All operations on-chain
+* **Permissionless**: Anyone can run a keeper
+* **Incentivized**: Keepers earn fees for operations
+* **Redundant**: Multiple keepers ensure uptime
+* **Transparent**: All operations on-chain
 
-See [Future Roadmap](./../ROADMAP.md) for complete automation plans.
+See [Future Roadmap](../../ROADMAP.md) for complete automation plans.
 
----
+***
 
 ## 🔗 Related Documentation
 
-- [Core Contracts](./../contracts/README.md)
-- [Architecture Overview](./../architecture/README.md)
-- [User Guide](./../user-guide/README.md)
-- [Future Roadmap](./../ROADMAP.md)
-
+* [Core Contracts](../../contracts/)
+* [Architecture Overview](../)
+* [User Guide](../../user-guide/)
+* [Future Roadmap](../../ROADMAP.md)

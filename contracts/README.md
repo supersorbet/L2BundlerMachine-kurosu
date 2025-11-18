@@ -514,5 +514,5 @@ Typical gas costs (approximate):
 
 * [Architecture Overview](../architecture/)
 * [Factory & Deployment](../factory/)
-* [Yield Strategies](../strategies/)
+* [Yield Strategies](../architecture/yield-strategies/strategies.md)
 * [Bridge Integration](../bridge/)

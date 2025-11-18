@@ -35,7 +35,7 @@ Detailed documentation of all production contracts with code snippets.
 
 Learn how to deploy your own private vault using the factory pattern.
 
-### [💎 Yield Strategies](strategies/)
+### [💎 Yield Strategies](architecture/yield-strategies/strategies.md)
 
 Explore supported yield strategies: Tydro lending and Velodrome liquidity provision.
 
@@ -47,7 +47,7 @@ Understand how cross-chain bridging works with Across Protocol.
 
 Step-by-step guide for users, including Gnosis Safe wallet integration.
 
-### [🚀 Deployment Guide](deployment/)
+### [🚀 Deployment Guide](broken-reference)
 
 Complete deployment instructions for L1 and L2 contracts.
 
@@ -170,4 +170,4 @@ With additional funding, we plan to implement:
 
 **Built for the Ink/Kraken Ecosystem** 🚀
 
-[Documentation](architecture/) • [Contracts](contracts/) • [Deployment](deployment/)
+[Documentation](architecture/) • [Contracts](contracts/) • [Deployment](broken-reference)

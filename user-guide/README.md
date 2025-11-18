@@ -2,34 +2,34 @@
 
 Complete guide for using the L1-L2 Cross-Chain Yield Aggregator system.
 
----
+***
 
 ## 🎯 Getting Started
 
 ### Prerequisites
 
-- Ethereum wallet (MetaMask, Rabby, Kraken Wallet, WalletConnect, etc.)
-- ETH for gas on both L1 and L2
-- Tokens to deposit (e.g., USDT)
-- Access to Ink L2 network
+* Ethereum wallet (MetaMask, Rabby, Kraken Wallet, WalletConnect, etc.)
+* ETH for gas on both L1 and L2
+* Tokens to deposit (e.g., USDT)
+* Access to Ink L2 network
 
 ### Quick Start Checklist
 
-- [ ] Deploy or connect to L1Depositor contract
-- [ ] Deploy your private vault via Factory
-- [ ] Fund vault with ETH for gas
-- [ ] Make your first deposit
+* [ ] Deploy or connect to L1Depositor contract
+* [ ] Deploy your private vault via Factory
+* [ ] Fund vault with ETH for gas
+* [ ] Make your first deposit
 
----
+***
 
 ## 📱 Gnosis Safe Integration
 
 ### Why Use Gnosis Safe?
 
-- ✅ **Multisig Security**: Require multiple signatures for operations
-- ✅ **Access Control**: Granular permissions
-- ✅ **Transaction History**: Complete audit trail
-- ✅ **Recovery**: Social recovery options
+* ✅ **Multisig Security**: Require multiple signatures for operations
+* ✅ **Access Control**: Granular permissions
+* ✅ **Transaction History**: Complete audit trail
+* ✅ **Recovery**: Social recovery options
 
 ### Setup with Gnosis Safe
 
@@ -65,9 +65,9 @@ Create a transaction in Gnosis Safe to accept ownership:
 
 Set up your Safe with required signers and threshold:
 
-- **Signers**: Add trusted addresses
-- **Threshold**: Set required signatures (e.g., 2 of 3)
-- **Modules**: Add any required modules
+* **Signers**: Add trusted addresses
+* **Threshold**: Set required signatures (e.g., 2 of 3)
+* **Modules**: Add any required modules
 
 ### Operating from Gnosis Safe
 
@@ -97,7 +97,7 @@ All vault operations now require Safe multisig approval:
 // Requires: 2 of 3 signatures
 ```
 
----
+***
 
 ## 💰 Making Deposits
 
@@ -126,9 +126,10 @@ l1Depositor.depositToL2(
 ```
 
 **What happens**:
+
 1. Tokens are transferred to L1Depositor
 2. Tokens are bridged to L2 via Across
-3. Tokens arrive at L2 vault (~2-3 seconds)
+3. Tokens arrive at L2 vault (\~2-3 seconds)
 4. Vault can auto-deposit to yield strategies
 
 ### Step 3: Auto-Deposit (Optional)
@@ -145,7 +146,7 @@ vault.depositAvailable(usdt0, false);
 
 **Keeper-friendly**: Anyone can call this function to trigger auto-deposit.
 
----
+***
 
 ## 🌾 Harvesting Yield
 
@@ -168,10 +169,11 @@ vault.harvestAndBridge(usdt0, 50);
 ```
 
 **What happens**:
+
 1. Yield is withdrawn from Tydro
 2. 50% is re-deposited (compound)
 3. 50% is bridged to L1 via Across
-4. Yield arrives at L1Depositor (~2-3 seconds)
+4. Yield arrives at L1Depositor (\~2-3 seconds)
 
 ### Withdraw Yield on L1
 
@@ -182,7 +184,7 @@ After yield arrives on L1, withdraw it:
 l1Depositor.withdrawYield(usdt, safeAddress);
 ```
 
----
+***
 
 ## 📊 Monitoring Your Vault
 
@@ -195,10 +197,11 @@ l1Depositor.withdrawYield(usdt, safeAddress);
 ```
 
 **Returns**:
-- `deposited`: Original principal
-- `balance`: Current balance in strategies
-- `yield`: Available yield to harvest
-- `gas`: ETH balance for gas
+
+* `deposited`: Original principal
+* `balance`: Current balance in strategies
+* `yield`: Available yield to harvest
+* `gas`: ETH balance for gas
 
 ### Check Yield Available
 
@@ -214,7 +217,7 @@ uint256 yield = vault.getYieldAvailable(usdt0);
 uint256 yieldBalance = l1Depositor.yieldBalance(usdt);
 ```
 
----
+***
 
 ## 🔄 Complete User Flow
 
@@ -270,7 +273,7 @@ sequenceDiagram
     Safe->>L1Depositor: withdrawYield(token)
 ```
 
----
+***
 
 ## 🛠️ Common Operations
 
@@ -305,63 +308,68 @@ vault.setDefaultCompoundPercent(60);  // 60% compound, 40% bridge
 payable(vault).transfer(0.1 ether);
 ```
 
----
+***
 
 ## ⚠️ Important Considerations
 
 ### Gas Management
 
-- **L2 Vault**: Keep funded with ETH for operations
-- **Minimum Balance**: Recommended 0.05 ETH minimum
-- **Auto-Refill**: Vault can auto-refill from bridge amounts
+* **L2 Vault**: Keep funded with ETH for operations
+* **Minimum Balance**: Recommended 0.05 ETH minimum
+* **Auto-Refill**: Vault can auto-refill from bridge amounts
 
 ### Slippage Protection
 
-- **Default**: 0.5% max slippage
-- **Adjustable**: Can be updated by owner
-- **Bridge Slippage**: Separate from DEX slippage
+* **Default**: 0.5% max slippage
+* **Adjustable**: Can be updated by owner
+* **Bridge Slippage**: Separate from DEX slippage
 
 ### Timing
 
-- **Bridge Time**: ~2-3 seconds (Across)
-- **Yield Generation**: 24-48 hours minimum
-- **Harvest Frequency**: Weekly recommended
+* **Bridge Time**: \~2-3 seconds (Across)
+* **Yield Generation**: 24-48 hours minimum
+* **Harvest Frequency**: Weekly recommended
 
 ### Security
 
-- **Owner-Only**: All critical operations require ownership
-- **Multisig**: Use Gnosis Safe for added security
-- **Monitor**: Regularly check vault status
+* **Owner-Only**: All critical operations require ownership
+* **Multisig**: Use Gnosis Safe for added security
+* **Monitor**: Regularly check vault status
 
----
+***
 
 ## 🆘 Troubleshooting
 
 ### "Token not supported"
+
 → Set token mapping on both L1 and L2 contracts
 
 ### "Insufficient gas"
+
 → Send more ETH to L2 vault
 
 ### "No yield available"
+
 → Wait longer (24-48 hours minimum)
 
 ### "Bridge doesn't complete"
+
 → Check Across transaction status
 
 ### "Slippage too high"
+
 → Adjust minAmount or maxSlippageBps
 
----
+***
 
 ## 📚 Additional Resources
 
-- [Core Contracts](./../contracts/README.md)
-- [Factory Deployment](./../factory/README.md)
-- [Yield Strategies](./../strategies/README.md)
-- [Deployment Guide](./../deployment/README.md)
+* [Core Contracts](../contracts/)
+* [Factory Deployment](../factory/)
+* [Yield Strategies](../architecture/yield-strategies/strategies.md)
+* [Deployment Guide](broken-reference)
 
----
+***
 
 ## 💡 Tips & Best Practices
 
@@ -371,4 +379,3 @@ payable(vault).transfer(0.1 ether);
 4. **Diversify**: Consider multiple strategies
 5. **Keep Gas Funded**: Maintain minimum ETH balance
 6. **Test First**: Test on testnet before mainnet
-

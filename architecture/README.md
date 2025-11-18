@@ -61,12 +61,11 @@ This architecture documentation is organized into focused sections:
 
 * [**Contract Responsibilities**](contracts.md) - Detailed breakdown of L1Depositor and L2Vault contracts, their responsibilities, and key functions
 * [**User Flows**](user-flows.md) - Complete deposit and harvest flow diagrams with sequence charts
-* [**Security Architecture**](security.md) - Access control, reentrancy protection, and circuit breakers
+* [**Security Architecture**](broken-reference) - Access control, reentrancy protection, and circuit breakers
 * [**Storage Layout**](storage.md) - Storage structures, state management, and yield calculation
-* [**Bridge Architecture**](bridge.md) - Across Protocol integration and bridge flow details
-* [**Yield Strategies**](yield-strategies.md) - Strategy selection, smart allocation, and compounding
+* [**Bridge Architecture**](broken-reference) - Across Protocol integration and bridge flow details
+* [**Yield Strategies**](yield-strategies/) - Strategy selection, smart allocation, and compounding
 * [**Factory Pattern**](factory.md) - Vault deployment and factory contract details
-* [**Gas Optimization**](gas-optimization.md) - Solady libraries, storage packing, and optimization techniques
 * [**Version History**](versions.md) - V1 (production) vs V2 (current) comparison
 
 ***
@@ -75,5 +74,5 @@ This architecture documentation is organized into focused sections:
 
 * [Core Contracts Documentation](../contracts/)
 * [Factory & Deployment Guide](../factory/)
-* [Yield Strategies Deep Dive](../strategies/)
+* [Yield Strategies Deep Dive](yield-strategies/strategies.md)
 * [Bridge Integration Details](../bridge/)
