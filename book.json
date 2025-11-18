@@ -1,0 +1,46 @@
+{
+  "title": "Ink Yield Bundler Documentation",
+  "description": "Comprehensive documentation for the L1-L2 Cross-Chain Yield Aggregator system",
+  "author": "@supersorbet",
+  "language": "en",
+  "gitbook": ">=3.2.0",
+  "root": "./",
+  "structure": {
+    "readme": "README.md",
+    "summary": "SUMMARY.md"
+  },
+  "plugins": [
+    "theme-default",
+    "livereload",
+    "search",
+    "sharing",
+    "fontsettings",
+    "lunr",
+    "back-to-top-button",
+    "code",
+    "copy-code-button"
+  ],
+  "pluginsConfig": {
+    "theme-default": {
+      "showLevel": true
+    },
+    "sharing": {
+      "facebook": true,
+      "twitter": true,
+      "google": false,
+      "weibo": false,
+      "instapaper": false,
+      "vk": false,
+      "all": [
+        "facebook",
+        "twitter"
+      ]
+    },
+    "fontsettings": {
+      "theme": "white",
+      "family": "sans",
+      "size": 2
+    }
+  }
+}
+
