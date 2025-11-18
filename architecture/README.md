@@ -1,12 +1,10 @@
-# System Architecture
+# Architecture Overview
 
 ## Overview
 
-The L1-L2 Ink Yield Bundler is a sophisticated two-contract system that enables seamless yield farming across Ethereum Mainnet and Ink L2. The architecture is designed for security, gas efficiency, and maximum flexibility.
+**Current Status**: V1 is deployed and operational on Ink L2 mainnet at [`0xB4BF6a67c329A2Fd27f224F11aB24e6963B89fb7`](https://explorer.inkonchain.com/address/0xB4BF6a67c329A2Fd27f224F11aB24e6963B89fb7?tab=txs), focusing on Tydro lending operations. V2 expands capabilities with multi-strategy support (Tydro + Velodrome) and includes zap utility peripheral contracts for seamless token swaps, one-click LP operations, and VELO token earning.
 
-**Current Status**: V1 is deployed and operational on Ink L2 mainnet at [`0xB4BF6a67c329A2Fd27f224F11aB24e6963B89fb7`](https://explorer.inkonchain.com/address/0xB4BF6a67c329A2Fd27f224F11aB24e6963B89fb7?tab=txs), focusing on Tydro lending operations. V2 expands capabilities with multi-strategy support (Tydro + Velodrome) and includes zap utility peripheral contracts for seamless token swaps, one-click LP operations, and VELO token staking.
-
----
+***
 
 ## 🏗️ High-Level Architecture
 
@@ -55,27 +53,27 @@ The L1-L2 Ink Yield Bundler is a sophisticated two-contract system that enables 
 └─────────────────────────────────────────────────────────────────┘
 ```
 
----
+***
 
 ## 📚 Architecture Documentation
 
 This architecture documentation is organized into focused sections:
 
-- **[Contract Responsibilities](./contracts.md)** - Detailed breakdown of L1Depositor and L2Vault contracts, their responsibilities, and key functions
-- **[User Flows](./user-flows.md)** - Complete deposit and harvest flow diagrams with sequence charts
-- **[Security Architecture](./security.md)** - Access control, reentrancy protection, and circuit breakers
-- **[Storage Layout](./storage.md)** - Storage structures, state management, and yield calculation
-- **[Bridge Architecture](./bridge.md)** - Across Protocol integration and bridge flow details
-- **[Yield Strategies](./yield-strategies.md)** - Strategy selection, smart allocation, and compounding
-- **[Factory Pattern](./factory.md)** - Vault deployment and factory contract details
-- **[Gas Optimization](./gas-optimization.md)** - Solady libraries, storage packing, and optimization techniques
-- **[Version History](./versions.md)** - V1 (production) vs V2 (current) comparison
+* [**Contract Responsibilities**](contracts.md) - Detailed breakdown of L1Depositor and L2Vault contracts, their responsibilities, and key functions
+* [**User Flows**](user-flows.md) - Complete deposit and harvest flow diagrams with sequence charts
+* [**Security Architecture**](security.md) - Access control, reentrancy protection, and circuit breakers
+* [**Storage Layout**](storage.md) - Storage structures, state management, and yield calculation
+* [**Bridge Architecture**](bridge.md) - Across Protocol integration and bridge flow details
+* [**Yield Strategies**](yield-strategies.md) - Strategy selection, smart allocation, and compounding
+* [**Factory Pattern**](factory.md) - Vault deployment and factory contract details
+* [**Gas Optimization**](gas-optimization.md) - Solady libraries, storage packing, and optimization techniques
+* [**Version History**](versions.md) - V1 (production) vs V2 (current) comparison
 
----
+***
 
 ## 🚀 Dive Deeper?
 
-- [Core Contracts Documentation](../contracts/README.md)
-- [Factory & Deployment Guide](../factory/README.md)
-- [Yield Strategies Deep Dive](../strategies/README.md)
-- [Bridge Integration Details](../bridge/README.md)
+* [Core Contracts Documentation](../contracts/)
+* [Factory & Deployment Guide](../factory/)
+* [Yield Strategies Deep Dive](../strategies/)
+* [Bridge Integration Details](../bridge/)

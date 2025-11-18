@@ -2,20 +2,20 @@
 
 This section provides detailed documentation for all current contract versions in the system.
 
----
+***
 
 ## 📋 Contract Index
 
-1. [L1DepositorV2_PRODUCTION](#l1depositorv2_production) - Ethereum L1 contract
-2. [BundledYieldVaultV2_PRODUCTION](#bundledyieldvaultv2_production) - Ink L2 vault
-3. [YieldVaultFactory](#yieldvaultfactory) - Vault deployment factory
-4. [YieldAllocator](#yieldallocator) - Smart extensible strategy allocation
+1. [L1DepositorV2\_](./#l1depositorv2_production) - Ethereum L1 contract
+2. [BundledYieldVaultV2\_](./#bundledyieldvaultv2_production) - Ink L2 vault
+3. [YieldVaultFactory](./#yieldvaultfactory) - Vault deployment factory
+4. [YieldAllocator](./#yieldallocator) - Smart extensible strategy allocation
 
----
+***
 
-## L1DepositorV2_
+## L1DepositorV2\_
 
-**Network**: Ethereum Mainnet  
+**Network**: Ethereum Mainnet\
 **Purpose**: Entry point for deposits and yield management on L1
 
 ### Overview
@@ -24,12 +24,12 @@ The L1Depositor contract serves as the primary interface for users to deposit as
 
 ### Key Features
 
-- ✅ Owner/User-only deposit operations
-- ✅ Cross-chain bridging via Across Protocol/Relay.link
-- ✅ Token mapping (L1 → L2)
-- ✅ Yield balance tracking
-- ✅ Emergency pause functionality
-- ✅ Slippage protection
+* ✅ Owner/User-only deposit operations
+* ✅ Cross-chain bridging via Across Protocol/Relay.link
+* ✅ Token mapping (L1 → L2)
+* ✅ Yield balance tracking
+* ✅ Emergency pause functionality
+* ✅ Slippage protection
 
 ### Contract Interface
 
@@ -72,11 +72,13 @@ function depositToL2(
 ```
 
 **Parameters**:
-- `token`: L1 token address (e.g., USDT)
-- `amount`: Amount to deposit
-- `minAmount`: Minimum amount expected on L2 (slippage protection)
+
+* `token`: L1 token address (e.g., USDT)
+* `amount`: Amount to deposit
+* `minAmount`: Minimum amount expected on L2 (slippage protection)
 
 **Flow**:
+
 1. Validates token mapping exists
 2. Checks minimum deposit amount
 3. Validates slippage tolerance
@@ -86,6 +88,7 @@ function depositToL2(
 7. Updates total deposits tracking
 
 **Example**:
+
 ```solidity
 // Deposit 10,000 USDT to L2
 depositor.depositToL2(
@@ -105,6 +108,7 @@ function setTokenMapping(address l1Token, address l2Token)
 ```
 
 **Example**:
+
 ```solidity
 // Map USDT L1 to USDT0 L2
 depositor.setTokenMapping(
@@ -123,6 +127,7 @@ function withdrawYield(address token)
 ```
 
 **Flow**:
+
 1. Checks yield balance > 0
 2. Transfers yield to owner
 3. Resets yield balance
@@ -138,11 +143,11 @@ function notifyYieldReceived(address token, uint256 amount)
 
 **Access Control**: Only authorized yield receivers (bridge relayer)
 
----
+***
 
-## BundledYieldVaultV2_PRODUCTION
+## BundledYieldVaultV2\_PRODUCTION
 
-**Network**: Ink L2  
+**Network**: Ink L2\
 **Purpose**: Yield strategy management and harvesting
 
 ### Overview
@@ -151,13 +156,13 @@ The L2 Vault is the core yield farming contract. It receives bridged tokens, dep
 
 ### Key Features
 
-- ✅ Multi-strategy support (Tydro + Velodrome)
-- ✅ Auto-deposit functionality
-- ✅ Yield harvesting with compounding
-- ✅ Cross-chain yield bridging
-- ✅ Smart allocation via YieldAllocator
-- ✅ Circuit breakers and rate limiting
-- ✅ Gas management
+* ✅ Multi-strategy support (Tydro + Velodrome)
+* ✅ Auto-deposit functionality
+* ✅ Yield harvesting with compounding
+* ✅ Cross-chain yield bridging
+* ✅ Smart allocation via YieldAllocator
+* ✅ Circuit breakers and rate limiting
+* ✅ Gas management
 
 ### Contract Interface
 
@@ -198,17 +203,20 @@ function depositAvailable(address token, bool useSmartAllocation)
 ```
 
 **Parameters**:
-- `token`: L2 token address
-- `useSmartAllocation`: If true, uses YieldAllocator for optimal strategy selection
+
+* `token`: L2 token address
+* `useSmartAllocation`: If true, uses YieldAllocator for optimal strategy selection
 
 **Flow**:
+
 1. Checks for new token balance from bridge
 2. If `useSmartAllocation` and allocator set:
-   - Allocates to best strategy via YieldAllocator
+   * Allocates to best strategy via YieldAllocator
 3. Otherwise:
-   - Deposits to Tydro (default)
+   * Deposits to Tydro (default)
 
 **Example**:
+
 ```solidity
 // Auto-deposit with smart allocation
 vault.depositAvailable(usdt0, true);
@@ -227,6 +235,7 @@ function depositToTydro(address token, uint256 amount)
 ```
 
 **Flow**:
+
 1. Validates token support
 2. Approves Tydro pool
 3. Encodes supply parameters
@@ -234,6 +243,7 @@ function depositToTydro(address token, uint256 amount)
 5. Updates token status
 
 **Code Snippet**:
+
 ```solidity
 function depositToTydro(address token, uint256 amount) internal {
     SafeTransferLib.safeApprove(token, TYDRO_POOL, amount);
@@ -264,10 +274,12 @@ function harvestAndBridge(
 ```
 
 **Parameters**:
-- `token`: Token to harvest
-- `compoundPercent`: Percentage to compound (0-100), remainder bridges to L1
+
+* `token`: Token to harvest
+* `compoundPercent`: Percentage to compound (0-100), remainder bridges to L1
 
 **Flow**:
+
 1. Calculates available yield
 2. Withdraws yield from Tydro
 3. Splits yield: `compoundPercent` compound, remainder bridge
@@ -275,6 +287,7 @@ function harvestAndBridge(
 5. Bridges remainder to L1 via Across
 
 **Example**:
+
 ```solidity
 // Harvest and bridge 50% (e.g. 50% compound, 50% bridge)
 vault.harvestAndBridge(usdt0, 50);
@@ -290,6 +303,7 @@ function deployToVelodrome(LPParams memory params)
 ```
 
 **Parameters**:
+
 ```solidity
 struct LPParams {
     address tokenA;
@@ -302,17 +316,18 @@ struct LPParams {
 ```
 
 **Flow**:
+
 1. Validates pair exists
 2. Approves Velodrome router
 3. Adds liquidity via router
 4. Optionally stakes in gauge
 5. Updates token status
 
----
+***
 
 ## YieldVaultFactory
 
-**Network**: Ink L2  
+**Network**: Ink L2\
 **Purpose**: Deploy private vault instances for users
 
 ### Overview
@@ -321,10 +336,10 @@ The Factory contract enables users to deploy their own isolated vault instances.
 
 ### Key Features
 
-- ✅ One-click vault deployment
-- ✅ Ownership transfer to deployer
-- ✅ Vault tracking and indexing
-- ✅ Configurable default settings
+* ✅ One-click vault deployment
+* ✅ Ownership transfer to deployer
+* ✅ Vault tracking and indexing
+* ✅ Configurable default settings
 
 ### Contract Interface
 
@@ -356,9 +371,11 @@ function deployVault(address l1Recipient)
 ```
 
 **Parameters**:
-- `l1Recipient`: L1Depositor address that will receive bridged yield
+
+* `l1Recipient`: L1Depositor address that will receive bridged yield
 
 **Flow**:
+
 1. Validates l1Recipient
 2. Deploys new `BundledYieldVaultV2_PRODUCTION` instance
 3. Transfers ownership to deployer (msg.sender)
@@ -366,6 +383,7 @@ function deployVault(address l1Recipient)
 5. Returns vault address
 
 **Example**:
+
 ```solidity
 // Deploy your own vault
 address myVault = factory.deployVault(l1DepositorAddress);
@@ -383,11 +401,11 @@ function getVaultsForOwner(address owner)
     external view returns (address[] memory)
 ```
 
----
+***
 
 ## YieldAllocator
 
-**Network**: Ink L2  
+**Network**: Ink L2\
 **Purpose**: Smart multi-strategy allocation system
 
 ### Overview
@@ -396,11 +414,11 @@ The YieldAllocator enables dynamic allocation of funds across multiple yield str
 
 ### Key Features
 
-- ✅ Multi-strategy registration
-- ✅ APY-based allocation
-- ✅ Automatic rebalancing
-- ✅ Auto-compounding
-- ✅ Configurable allocation limits
+* ✅ Multi-strategy registration
+* ✅ APY-based allocation
+* ✅ Automatic rebalancing
+* ✅ Auto-compounding
+* ✅ Configurable allocation limits
 
 ### Contract Interface
 
@@ -433,11 +451,13 @@ function allocateFunds(
 ```
 
 **Parameters**:
-- `token`: Token to allocate
-- `amount`: Amount to allocate
-- `forceStrategy`: Strategy ID to force (0 = auto-select)
+
+* `token`: Token to allocate
+* `amount`: Amount to allocate
+* `forceStrategy`: Strategy ID to force (0 = auto-select)
 
 **Flow**:
+
 1. If `forceStrategy > 0`: Allocate to specified strategy
 2. Otherwise: Compare APYs and allocate to best strategy
 3. Respects max allocation limits
@@ -457,42 +477,42 @@ function rebalance(
 ```
 
 **Flow**:
+
 1. Checks rebalance threshold (yield differential)
 2. Withdraws from source strategy
 3. Allocates to destination strategy
 4. Updates allocation tracking
 
----
+***
 
 ## 🔐 Security Features
 
 All contracts implement:
 
-- **Ownable**: Owner-only operations
-- **ReentrancyGuard**: Protection against reentrancy attacks
-- **Pausable**: Emergency pause functionality
-- **Rate Limiting**: Anti-spam mechanisms
-- **Circuit Breakers**: Withdrawal limits and emergency stops
+* **Ownable**: Owner-only operations
+* **ReentrancyGuard**: Protection against reentrancy attacks
+* **Pausable**: Emergency pause functionality
+* **Rate Limiting**: Anti-spam mechanisms
+* **Circuit Breakers**: Withdrawal limits and emergency stops
 
----
+***
 
 ## 📊 Gas Costs
 
 Typical gas costs (approximate):
 
-| Operation | Gas Cost |
-|-----------|----------|
-| `depositToL2` (L1) | ~77,000 |
-| `depositAvailable` (L2) | ~120,000 |
-| `harvestAndBridge` (L2) | ~180,000 |
-| `deployVault` (Factory) | ~2,500,000 |
+| Operation               | Gas Cost    |
+| ----------------------- | ----------- |
+| `depositToL2` (L1)      | \~77,000    |
+| `depositAvailable` (L2) | \~120,000   |
+| `harvestAndBridge` (L2) | \~180,000   |
+| `deployVault` (Factory) | \~2,500,000 |
 
----
+***
 
 ## 🔗 Related Documentation
 
-- [Architecture Overview](./../architecture/README.md)
-- [Factory & Deployment](./../factory/README.md)
-- [Yield Strategies](./../strategies/README.md)
-- [Bridge Integration](./../bridge/README.md)
-
+* [Architecture Overview](../architecture/)
+* [Factory & Deployment](../factory/)
+* [Yield Strategies](../strategies/)
+* [Bridge Integration](../bridge/)

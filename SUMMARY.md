@@ -1,8 +1,7 @@
-# Summary
+# Table of contents
 
 * [Introduction](README.md)
 * [Quick Reference](QUICK_REFERENCE.md)
-* [Deployment Guide](DEPLOYMENT_GUIDE.md)
 
 ## Architecture
 
