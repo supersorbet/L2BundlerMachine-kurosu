@@ -17,3 +17,4 @@ test/MicroAmountYieldTests.t.sol
 node_modules/
 .DS_Store
 gitbook-docs/
+altold/
