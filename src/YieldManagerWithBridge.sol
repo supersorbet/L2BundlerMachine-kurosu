@@ -13,12 +13,17 @@ import {IVeloPair, IVeloRouter} from "./interfaces/IVelodrome.sol";
 /// @title YieldManagerWithBridge
 /// @notice Manages yield across Tydro and Velodrome, with Relay Protocol bridge integration
 /// @dev Uses Relay Protocol for L1 transfers (https://docs.relay.link)
+/// @author sorbet/pepecoin core
 contract YieldManagerWithBridge is Ownable, ReentrancyGuard {
     using SafeTransferLib for address;
 
+    /// @dev Error for invalid address
     error InvalidAddress();
+    /// @dev Error for invalid amount
     error InvalidAmount();
+    /// @dev Error for invalid strategy
     error InvalidStrategy();
+    /// @dev Error for no yield
     error NoYield();
     error PairNotFound();
     error NotDeployedToTydro();

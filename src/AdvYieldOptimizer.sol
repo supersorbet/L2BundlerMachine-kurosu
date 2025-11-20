@@ -8,10 +8,11 @@ import {IL2Pool} from "./interfaces/IL2Pool.sol";
 import {IL2Encoder} from "./interfaces/IL2Encoder.sol";
 import {IAToken} from "./interfaces/ITydroAAVE.sol";
 
-/// @title AdvancedYieldOptimizer
-/// @notice Advanced yield optimization strategies for Tydro/Aave V3
+/// @title AdvYieldOptimizer
+/// @notice Adv yield optimization strategies for Tydro/Aave V3
 /// @dev Implements leverage looping, auto-compounding, rate optimization, and multi-asset strategies
-contract AdvancedYieldOptimizer is Ownable, ReentrancyGuard {
+/// @author sorbet/pepecoin core
+contract AdvYieldOptimizer is Ownable, ReentrancyGuard {
     using SafeTransferLib for address;
 
     error InvalidConfig();
@@ -48,11 +49,6 @@ contract AdvancedYieldOptimizer is Ownable, ReentrancyGuard {
     uint256 public constant HEALTH_FACTOR_PRECISION = 1e18;
     uint256 public constant MAX_LEVERAGE_BPS = 50000; // 5x max
     uint256 public defaultCompoundInterval = 3600; // 1 hour
-
-    event LeveragePositionOpened(address indexed collateral, address indexed borrow, uint256 collateralAmount, uint256 borrowedAmount);
-    event LeveragePositionClosed(address indexed collateral, uint256 collateralWithdrawn, uint256 debtRepaid);
-    event PositionCompounded(address indexed asset, uint256 yieldCompounded);
-    event AssetConfigUpdated(address indexed asset, AssetConfig config);
 
     constructor(address _tydroPool, address _l2Encoder) {
         if (_tydroPool == address(0) || _l2Encoder == address(0)) revert InvalidConfig();
@@ -335,4 +331,10 @@ contract AdvancedYieldOptimizer is Ownable, ReentrancyGuard {
         }
         return 0;
     }
+
+    event LeveragePositionOpened(address indexed collateral, address indexed borrow, uint256 collateralAmount, uint256 borrowedAmount);
+    event LeveragePositionClosed(address indexed collateral, uint256 collateralWithdrawn, uint256 debtRepaid);
+    event PositionCompounded(address indexed asset, uint256 yieldCompounded);
+    event AssetConfigUpdated(address indexed asset, AssetConfig config);
+
 }

@@ -6,7 +6,14 @@ import {BundledYieldVaultV2_PRODUCTION} from "./BundledYieldVaultV2_PRODUCTION.s
 /// @title YieldVaultFactory
 /// @notice Factory for deploying yield vaults for users
 /// @dev Enables easy deployment and tracking of user vaults
+/// @author sorbet/pepecoin core
 contract YieldVaultFactory {
+
+    /// @dev Error for invalid address
+    error InvalidAddress();
+    /// @dev Error for invalid keeper fee
+    error InvalidKeeperFee();
+    
     struct VaultConfig {
         address tydroPool;
         address l2Encoder;
@@ -17,25 +24,21 @@ contract YieldVaultFactory {
     
     /// @dev Default configuration (set in constructor)
     VaultConfig public defaultConfig;
-    
     /// @dev Track all deployed vaults
     address[] public deployedVaults;
-    
     /// @dev Mapping from vault address to owner
     mapping(address => address) public vaultOwners;
-    
     /// @dev Mapping from owner to their vaults
     mapping(address => address[]) public ownerVaults;
-    
     /// @dev Default keeper fee in basis points (e.g., 10 = 0.1%)
     uint256 public defaultKeeperFeeBps = 10;
     
-    event VaultDeployed(address indexed vault, address indexed owner, address indexed l1Recipient);
-    event DefaultKeeperFeeUpdated(uint256 oldFee, uint256 newFee);
-    
-    error InvalidAddress();
-    error InvalidKeeperFee();
-    
+    /// @param _tydroPool Tydro pool address
+    /// @param _l2Encoder L2 encoder address
+    /// @param _acrossSpokePool Across Spoke pool address
+    /// @param _veloRouter Velodrome router address
+    /// @param _slipstreamNFT Slipstream NFT address
+    /// @param _defaultKeeperFeeBps Default keeper fee in basis points
     constructor(
         address _tydroPool,
         address _l2Encoder,
@@ -57,7 +60,7 @@ contract YieldVaultFactory {
             slipstreamNFT: _slipstreamNFT
         });
         
-        if (_defaultKeeperFeeBps > 100) revert InvalidKeeperFee(); // Max 1%
+        if (_defaultKeeperFeeBps > 100) revert InvalidKeeperFee();///Max 1%
         defaultKeeperFeeBps = _defaultKeeperFeeBps;
     }
     
@@ -67,7 +70,7 @@ contract YieldVaultFactory {
     function deployVault(address l1Recipient) external returns (address vault) {
         if (l1Recipient == address(0)) revert InvalidAddress();
         
-        // Deploy new vault instance
+       ///Deploy new vault instance
         BundledYieldVaultV2_PRODUCTION newVault = new BundledYieldVaultV2_PRODUCTION(
             defaultConfig.tydroPool,
             defaultConfig.l2Encoder,
@@ -77,14 +80,11 @@ contract YieldVaultFactory {
             defaultConfig.slipstreamNFT
         );
         
-        // Set default keeper fee (if vault supports it)
-        // Note: This requires adding setKeeperFee to vault contract
-        // try newVault.setKeeperFee(defaultKeeperFeeBps) {} catch {}
-        
-        // Transfer ownership to deployer (msg.sender)
+       ///Set default keeper fee (if vault supports it)
+       ///Note: if u add setKeeperFee to vault contract
+       ///try newVault.setKeeperFee(defaultKeeperFeeBps) {} catch {}
         newVault.transferOwnership(msg.sender);
-        
-        // Track deployment
+       ///Track deployment
         address vaultAddress = address(newVault);
         deployedVaults.push(vaultAddress);
         vaultOwners[vaultAddress] = msg.sender;
@@ -116,9 +116,8 @@ contract YieldVaultFactory {
     
     /// @notice Update default keeper fee (factory owner only)
     /// @param newFee New keeper fee in basis points
-    function setDefaultKeeperFee(uint256 newFee) external {
-        // Note: Add access control (onlyOwner) if needed
-        if (newFee > 100) revert InvalidKeeperFee(); // Max 1%
+    function setDefaultKeeperFee(uint256 newFee) external onlyOwner {
+        if (newFee > 300) revert InvalidKeeperFee();///Max 3%
         uint256 oldFee = defaultKeeperFeeBps;
         defaultKeeperFeeBps = newFee;
         emit DefaultKeeperFeeUpdated(oldFee, newFee);

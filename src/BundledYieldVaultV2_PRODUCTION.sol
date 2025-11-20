@@ -109,43 +109,44 @@ contract BundledYieldVaultV2_PRODUCTION is Ownable, ReentrancyGuard {
         uint32 lastUpdate;       ///Last update timestamp (block.timestamp truncated)
     }
     
+    /// @dev Parameters for creating a Velodrome LP position
     struct LPParams {
-        address tokenA;
-        address tokenB;
-        uint256 amountA;
-        uint256 amountB;
-        bool stable;
+        address tokenA;///Token A address
+        address tokenB;///Token B address
+        uint256 amountA;///Amount of token A
+        uint256 amountB;///Amount of token B    
+        bool stable;///Whether the pair is stable
         bool stakeInGauge;
     }
 
     struct SlipstreamMintParams {
-        address token0;
-        address token1;
-        uint24 fee;
-        int24 tickLower;
-        int24 tickUpper;
-        uint256 amount0Desired;
-        uint256 amount1Desired;
-        uint256 amount0Min;
-        uint256 amount1Min;
-        uint256 deadline;
+        address token0;///Token 0 address
+        address token1;///Token 1 address
+        uint24 fee;///Fee tier (e.g., 100 = 0.01%)
+        int24 tickLower;///Lower tick for the position
+        int24 tickUpper;///Upper tick for the position
+        uint256 amount0Desired;///Amount of token 0 desired
+        uint256 amount1Desired;///Amount of token 1 desired
+        uint256 amount0Min;///Minimum amount of token 0 (for slippage protection)
+        uint256 amount1Min;///Minimum amount of token 1 (for slippage protection)
+        uint256 deadline;///Deadline for the transaction
     }
 
     struct SlipstreamLiquidityParams {
-        uint256 tokenId;
-        uint256 amount0Desired;
-        uint256 amount1Desired;
-        uint256 amount0Min;
-        uint256 amount1Min;
-        uint256 deadline;
+        uint256 tokenId;///Token ID
+        uint256 amount0Desired;///Amount of token 0 desired
+        uint256 amount1Desired;///Amount of token 1 desired
+        uint256 amount0Min;///Minimum amount of token 0 (for slippage protection)
+        uint256 amount1Min;///Minimum amount of token 1 (for slippage protection)
+        uint256 deadline;///Deadline for the transaction
     }
 
     struct SlipstreamDecreaseParams {
-        uint256 tokenId;
-        uint128 liquidity;
-        uint256 amount0Min;
-        uint256 amount1Min;
-        uint256 deadline;
+        uint256 tokenId;///Token ID
+        uint128 liquidity;///Liquidity to decrease
+        uint256 amount0Min;///Minimum amount of token 0 (for slippage protection)
+        uint256 amount1Min;///Minimum amount of token 1 (for slippage protection)
+        uint256 deadline;///Deadline for the transaction
     }
 
     mapping(address => TokenStatus) public tokenStatus;

@@ -13,13 +13,21 @@ contract SlipstreamHelper {
     using SafeTransferLib for address;
 
     error Unauthorized();
+    /// @dev Error for unauthorized access
     error VaultAlreadySet();
+    /// @dev Error for vault not set
     error VaultNotSet();
+    /// @dev Error for deposit failed
     error DepositFailed();
+    /// @dev Error for invalid amount
     error InvalidAmount();
+    /// @dev Error for insufficient balance
     error InsufficientBalance();
+    /// @dev Error for position not found
     error PositionNotFound();
+    /// @dev Error for invalid token id
     error InvalidTokenId();
+    /// @dev Error for swap failed
     error SwapFailed();
     
     /// @dev Slipstream Position NFT contract address (on Ink L2)

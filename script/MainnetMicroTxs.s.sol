@@ -37,7 +37,7 @@ contract MainnetMicroTxs is Script {
         // Verify deployer is owner
         require(vault.owner() == deployer, "Deployer must be vault owner");
         
-        console.log("=== MAINNET MICRO TRANSACTIONS FOR DOCUMENTATION ===");
+        console.log("420 MAINNET MICRO TRANSACTIONS FOR DOCUMENTATION 420");
         console.log("Deployer:", deployer);
         console.log("Vault:", vaultAddress);
         console.log("Velo Helper:", vault.VELO_HELPER());
@@ -48,8 +48,8 @@ contract MainnetMicroTxs is Script {
         // vm.startBroadcast reads PRIVATE_KEY from .env automatically
         vm.startBroadcast();
         
-        // ========== TX 1: TYDRO DEPOSIT ==========
-        console.log("=== TX 1: TYDRO DEPOSIT ===");
+        // 6969696696969696969 TX 1: TYDRO DEPOSIT 6969696696969696969
+        console.log("420 TX 1: TYDRO DEPOSIT 420");
         uint256 usdtBalance = IERC20(USDT0_L2).balanceOf(deployer);
         console.log("Deployer USDT0 balance:", usdtBalance / 1e6);
         
@@ -67,8 +67,8 @@ contract MainnetMicroTxs is Script {
         
         console.log("");
         
-        // ========== TX 2: SLIPSTREAM ZAP (via SlipstreamHelper) ==========
-        console.log("ffff TX 2: SLIPSTREAM ZAP (via SlipstreamHelper) fffff");
+        // 6969696696969696969 TX 2: SLIPSTREAM ZAP (via SlipstreamHelper) 6969696696969696969
+        console.log("420 TX 2: SLIPSTREAM ZAP (via SlipstreamHelper) 420");
         usdtBalance = IERC20(USDT0_L2).balanceOf(deployer);
         console.log("Deployer USDT0 balance:", usdtBalance / 1e6);
         
@@ -103,15 +103,14 @@ contract MainnetMicroTxs is Script {
         
         console.log("");
         
-        // ========== TX 3: SLIPSTREAM POSITION (Direct, via SlipstreamHelper) ==========
-        console.log("=== TX 3: SLIPSTREAM POSITION (Direct, via SlipstreamHelper) ===");
+        // 6969696696969696969 TX 3: SLIPSTREAM POSITION (Direct, via SlipstreamHelper) 6969696696969696969
+        console.log("420 TX 3: SLIPSTREAM POSITION (Direct, via SlipstreamHelper) 420");
         usdtBalance = IERC20(USDT0_L2).balanceOf(deployer);
         uint256 usdcBalance = IERC20(USDC_L2).balanceOf(deployer);
         console.log("Deployer USDT0 balance:", usdtBalance / 1e6);
         console.log("Deployer USDC balance:", usdcBalance / 1e6);
         
         if (usdtBalance >= MICRO_DEPOSIT_SLIPSTREAM && usdcBalance >= MICRO_DEPOSIT_SLIPSTREAM) {
-            // Transfer to vault (vault needs tokens for position)
             IERC20(USDT0_L2).transfer(vaultAddress, MICRO_DEPOSIT_SLIPSTREAM);
             IERC20(USDC_L2).transfer(vaultAddress, MICRO_DEPOSIT_SLIPSTREAM);
             console.log("Transferred tokens to vault");
@@ -142,7 +141,7 @@ contract MainnetMicroTxs is Script {
         }
         
         console.log("");
-        console.log("=== ALL MICRO TRANSACTIONS COMPLETE ===");
+        console.log("420 ALL MICRO TRANSACTIONS COMPLETE 420");
         console.log("Check transaction hashes above for documentation");
         
         vm.stopBroadcast();

@@ -6,21 +6,26 @@ import {SafeTransferLib} from "solady/src/utils/SafeTransferLib.sol";
 import {Ownable} from "solady/src/auth/Ownable.sol";
 import {ReentrancyGuard} from "solady/src/utils/ReentrancyGuard.sol";
 
-
-/**** EXPERIMENTAL CONTRACT  *****/
-
+/**** EXPERIMENTAL  *****/
 
 /// @title YieldAllocator
 /// @notice Smart yield allocation system with dynamic rebalancing and auto-compounding
 /// @dev Manages multiple yield strategies and automatically allocates funds based on yield rates
+/// @author sorbet/pepecoin core
 contract YieldAllocator is Ownable, ReentrancyGuard {
     using SafeTransferLib for address;
     
+    /// @dev Error for strategy not registered
     error StrategyNotRegistered();
+    /// @dev Error for invalid allocation
     error InvalidAllocation();
+    /// @dev Error for insufficient balance
     error InsufficientBalance();
+    /// @dev Error for rebalance threshold not met
     error RebalanceThresholdNotMet();
+    /// @dev Error for max allocation exceeded
     error MaxAllocationExceeded();
+    /// @dev Error for invalid APY
     error InvalidAPY();
     
     /// @dev Strategy allocation info - packed for gas efficiency
@@ -64,6 +69,9 @@ contract YieldAllocator is Ownable, ReentrancyGuard {
     }
     
     /// @notice Set aux data for a strategy (e.g., pair token for Velodrome)
+    /// @param token Token address
+    /// @param strategyId Strategy ID
+    /// @param auxData Aux data
     function setStrategyAuxData(address token, uint8 strategyId, bytes calldata auxData) external onlyOwner {
         strategyAuxData[token][strategyId] = auxData;
     }
@@ -142,8 +150,7 @@ contract YieldAllocator is Ownable, ReentrancyGuard {
         bytes memory fromAuxData = strategyAuxData[token][currentStrategy];
         uint256 shares = _calculateShares(token, currentStrategy, rebalanceAmount);
         uint256 withdrawn = strategies[currentStrategy].withdraw(token, shares, fromAuxData);
-        
-       ///Deposit to best strategy
+       ///Deposit to juiciest strategy
         bytes memory toAuxData = strategyAuxData[token][bestStrategy];
         SafeTransferLib.safeApprove(token, address(strategies[bestStrategy]), withdrawn);
         strategies[bestStrategy].deposit(token, withdrawn, toAuxData);
@@ -187,11 +194,16 @@ contract YieldAllocator is Ownable, ReentrancyGuard {
     }
     
     /// @notice Get best strategy for a token based on APY
+    /// @param token Token address
+    /// @return strategyId Strategy ID
+    /// @return apyBps APY in basis points
     function getBestStrategy(address token) external view returns (uint8 strategyId, uint256 apyBps) {
         return _getBestStrategy(token);
     }
     
     /// @notice Get total value across all strategies
+    /// @param token Token address
+    /// @return total Total value across all strategies
     function getTotalValue(address token) external view returns (uint256 total) {
         for (uint8 i = 1; i <= 10; i++) {
             if (address(strategies[i]) == address(0)) continue;
@@ -200,6 +212,7 @@ contract YieldAllocator is Ownable, ReentrancyGuard {
         }
     }
     
+    /// @notice Get best strategy for a token based on APY
     function _getBestStrategy(address token) internal view returns (uint8 bestStrategy, uint256 bestAPY) {
         for (uint8 i = 1; i <= 10; i++) {
             if (address(strategies[i]) == address(0)) continue;
@@ -213,11 +226,18 @@ contract YieldAllocator is Ownable, ReentrancyGuard {
         }
     }
     
+    /// @notice Get APY for a strategy
+    /// @param token Token address
+    /// @param strategyId Strategy ID
+    /// @return apyBps APY in basis points
     function _getStrategyAPY(address token, uint8 strategyId) internal view returns (uint256 apyBps) {
         bytes memory auxData = strategyAuxData[token][strategyId];
         return strategies[strategyId].getAPY(token, auxData);
     }
     
+    /// @notice Get largest allocation for a token
+    /// @param token Token address
+    /// @return largestStrategy Largest allocation strategy ID
     function _getLargestAllocation(address token) internal view returns (uint8 largestStrategy) {
         uint128 largestAmount = 0;
         for (uint8 i = 1; i <= 10; i++) {
@@ -229,16 +249,42 @@ contract YieldAllocator is Ownable, ReentrancyGuard {
         }
     }
     
-    function _calculateShares(address token, uint8 strategyId, uint256 amount) internal view returns (uint256) {
+    /// @notice Calculate shares for a strategy
+    /// @param token Token address
+    /// @param strategyId Strategy ID
+    /// @param amount Amount to calculate shares for
+    /// @return shares Shares
+    function _calculateShares(address token, uint8 strategyId, uint256 amount) internal view returns (uint256 shares) {
        ///Simplified: assume 1:1 for now
        ///todo:, calculate based on strategy's share mechanism
         return amount;
     }
 
+    /// @notice Event for strategy registered
+    /// @param strategyId Strategy ID
+    /// @param strategy Strategy address
     event StrategyRegistered(uint8 indexed strategyId, address indexed strategy);
+    /// @notice Event for funds allocated
+    /// @param strategyId Strategy ID
+    /// @param token Token address
+    /// @param amount Amount allocated
     event FundsAllocated(uint8 indexed strategyId, address indexed token, uint256 amount);
+    /// @notice Event for funds rebalanced
+    /// @param token Token address
+    /// @param fromStrategy From strategy ID
+    /// @param toStrategy To strategy ID
+    /// @param amount Amount rebalanced
     event FundsRebalanced(address indexed token, uint8 fromStrategy, uint8 toStrategy, uint256 amount);
+    /// @notice Event for yield compounded
+    /// @param token Token address
+    /// @param strategyId Strategy ID
+    /// @param amount Amount compounded
     event YieldCompounded(address indexed token, uint8 indexed strategyId, uint256 amount);
+    /// @notice Event for allocation updated
+    /// @param strategyId Strategy ID
+    /// @param token Token address
+    /// @param oldAlloc Old allocation
+    /// @param newAlloc New allocation
     event AllocationUpdated(uint8 indexed strategyId, address indexed token, uint256 oldAlloc, uint256 newAlloc);
     event MaxAllocationUpdated(uint8 indexed strategyId, uint64 oldMax, uint64 newMax);
     event RebalanceThresholdUpdated(uint64 oldThreshold, uint64 newThreshold);

@@ -6,18 +6,22 @@ import {ReentrancyGuard} from "solady/src/utils/ReentrancyGuard.sol";
 import {SafeTransferLib} from "solady/src/utils/SafeTransferLib.sol";
 import {IHubPool} from "./interfaces/IAcross.sol";
 
-/// @title L1DepositorV2_PRODUCTION
+/// @title L1DepositorV2_
 /// @notice Private treasury L1 contract for depositing tokens to L2 (Ink) via Across Bridge
-/// @dev Owner-only operations for private treasury management
-/// @dev Gas-optimized Solady implementation with proper interfaces
-contract L1DepositorV2_PRODUCTION is Ownable, ReentrancyGuard {
+/// @author sorbet/pepecoin core
+contract L1DepositorV2_PROD is Ownable, ReentrancyGuard {
     using SafeTransferLib for address;
 
+    /// @dev Error for token not supported
     error TokenNotSupported();
+    /// @dev Error for L2 vault not set
     error L2VaultNotSet();
+    /// @dev Error for insufficient amount
     error InsufficientAmount();
+    /// @dev Error for slippage too high
     error SlippageTooHigh();
     error UnauthorizedYieldReceiver();
+    /// @dev Error for invalid address
     error InvalidAddress();
 
     /// @dev Across HubPool contract address
@@ -34,7 +38,7 @@ contract L1DepositorV2_PRODUCTION is Ownable, ReentrancyGuard {
     uint128 public minDepositAmount = 1000;
     /// @dev Track total deposits per token
     mapping(address => uint256) public totalDeposits;
-    /// @dev Pause flag - packed into single storage slot for gas efficiency
+
     uint256 private _paused;
     /// @dev Track yield received from L2 per token
     mapping(address => uint256) public yieldBalance;
