@@ -1,4 +1,4 @@
-# L1-L2 Cross Chain Yield Aggregator
+# L1-L2 Yield Aggregator
 
 A production-ready cross-chain yield aggregator system that bridges assets from Ethereum L1 to Ink L2, farms yield on Tydro & Velodrome pools, and bridges yield back to L1.
 
