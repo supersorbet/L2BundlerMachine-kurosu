@@ -2,7 +2,7 @@
 pragma solidity ^0.8.23;
 
 import {Script, console} from "forge-std/Script.sol";
-import {L1DepositorV2_PRODUCTION} from "../src/L1DepositorV2_PRODUCTION.sol";
+import {L1DepositorV2_PROD} from "../src/L1DepositorV2_PRODUCTION.sol";
 
 /**
  * @title DeployL1
@@ -36,7 +36,7 @@ contract DeployL1 is Script {
         try vm.envUint("INK_CHAIN_ID") returns (uint256 chainId) {
             destinationChainId = chainId;
         } catch {}
-        L1DepositorV2_PRODUCTION depositor = new L1DepositorV2_PRODUCTION(
+        L1DepositorV2_PROD depositor = new L1DepositorV2_PROD(
             HUB_POOL,
             l2Vault,
             destinationChainId
@@ -44,7 +44,7 @@ contract DeployL1 is Script {
         
         vm.stopBroadcast();
         
-        console.log("L1DepositorV2_PRODUCTION deployed at:", address(depositor));
+        console.log("L1DepositorV2_PROD deployed at:", address(depositor));
         console.log("Owner:", depositor.owner());
         console.log("L2 Vault:", depositor.l2Vault());
         

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.23;
 
 import {Script, console} from "forge-std/Script.sol";
-import {L1DepositorV2_PRODUCTION} from "../src/L1DepositorV2_PRODUCTION.sol";
+import {L1DepositorV2_PROD} from "../src/L1DepositorV2_PRODUCTION.sol";
 import {BundledYieldVaultV2_PRODUCTION} from "../src/BundledYieldVaultV2_PRODUCTION.sol";
 
 /**
@@ -115,7 +115,7 @@ contract DeployMainnet is Script {
         
         vm.startBroadcast(deployerPrivateKey);
         
-        L1DepositorV2_PRODUCTION depositor = new L1DepositorV2_PRODUCTION(
+        L1DepositorV2_PROD depositor = new L1DepositorV2_PROD(
             HUB_POOL,
             l2Vault,
             INK_CHAIN_ID
@@ -132,7 +132,7 @@ contract DeployMainnet is Script {
     function _configureL1(address l1Depositor, uint256 deployerPrivateKey) internal {
         console.log("Configuring L1 token mapping...");
         vm.startBroadcast(deployerPrivateKey);
-        L1DepositorV2_PRODUCTION depositor = L1DepositorV2_PRODUCTION(l1Depositor);
+        L1DepositorV2_PROD depositor = L1DepositorV2_PROD(l1Depositor);
         depositor.setTokenMapping(USDT_L1, USDT0_L2);
         console.log("[OK] L1: Set token mapping USDT -> USDT0");
         vm.stopBroadcast();
