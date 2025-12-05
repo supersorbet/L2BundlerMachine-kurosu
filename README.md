@@ -214,18 +214,18 @@ cast send $L1_DEPOSITOR \
     --private-key $PRIVATE_KEY
 ```
 
-## 📊 Expected Results
+## 📊 Average Results
 
-With $10 USDT @ 3% APY:
+With 10000 USDT @ 20% APY:
 
-- **Start**: $10.00
-- **After 48h**: $10.0054
-- **Harvest (50/50 split)**:
-  - Compound: $0.0027 → stays on L2
-  - Bridge: $0.0027 → goes to L1
+- **Start**: 10,000
+- **After 48h**: 10,032.88
+- **Harvest (50/50 split):**:
+  - Compound: 16.44 → stays on ink
+  - Bridge: 16.44 → goes to L1
 - **After harvest**:
-  - L2 Balance: $10.0027 (original + compound)
-  - L1 Profit: $0.0027 (in your wallet)
+  - Ink Balance: 10,016.44 (original + compound)
+  - L1 Profit: 16.44 (in your wallet)
 
 ## 🔧 Configuration
 
